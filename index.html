@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Max Post | Home</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Abstract Shapes -->
+    <div class="abstract-shape shape-1"></div>
+    <div class="abstract-shape shape-2"></div>
+    <div class="abstract-shape shape-3"></div>
+
+    <header>
+        <h1>MAX POST</h1>
+        <button class="menu-toggle" aria-label="Toggle menu">
+            <span class="menu-line"></span>
+            <span class="menu-line"></span>
+            <span class="menu-line"></span>
+        </button>
+        <nav class="nav-menu">
+            <a href="index.html">HOME</a>
+            <a href="blog/index.html">BLOG</a>
+            <a href="https://github.com/maxcpost" target="_blank">CODE</a>
+            <a href="https://www.linkedin.com/in/max-c-post" target="_blank">LINKEDIN</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="intro">
+            <h2>About</h2>
+            <p> My focus is on the intersection of technology and masterplanned community development. More specifically I am currently focused on building Artificial Inteligence and data analytics algorithms to identify land that is optimal for developing into master planned communities. We are working on this development project inan effort to help aliviate the national housing crisis. I am currently a second year student at the Golisano Institute of Business and Entrepreneurship in Rochester NY, studying to become an expert generalist in business.</p>
+            <br>
+            <p> <b>My Massive Transformative Purpose:</b> To redifine housing afforability through innovative technologies and sustainable practices, providing a stable foundation for families to thrive.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2024 Maximillian Post</p>
+    </footer>
+
+    <script>
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            this.classList.toggle('active');
+            document.querySelector('.nav-menu').classList.toggle('active');
+        });
+    </script>
+</body>
+</html> 

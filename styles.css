@@ -1,0 +1,330 @@
+/* Google Fonts Import */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap');
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'JetBrains Mono', monospace;
+    line-height: 1.6;
+    background-color: #ffffff;
+    color: #000000;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    -webkit-text-size-adjust: 100%;
+}
+
+/* Container */
+main {
+    padding: clamp(1rem, 5vw, 2rem);
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Abstract Components */
+.abstract-shape {
+    position: fixed;
+    background: #f0f0f0;
+    z-index: -1;
+    mix-blend-mode: multiply;
+    opacity: 0.7;
+}
+
+.shape-1 {
+    width: 200px;
+    height: 200px;
+    top: 10%;
+    right: 5%;
+    transform: rotate(15deg);
+    background: #e8e8e8;
+}
+
+.shape-2 {
+    width: 150px;
+    height: 150px;
+    bottom: 15%;
+    left: 5%;
+    transform: rotate(-25deg);
+    background: #f2f2f2;
+}
+
+.shape-3 {
+    width: 100px;
+    height: 300px;
+    top: 40%;
+    right: 15%;
+    transform: rotate(45deg);
+    background: #ebebeb;
+}
+
+/* Typography */
+h1, h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+h1 {
+    font-size: clamp(3rem, 10vw, 8rem);
+    background: #000;
+    color: #fff;
+    line-height: 1;
+    padding: clamp(1rem, 5vw, 2rem);
+    margin: 0;
+    width: 100%;
+    word-break: break-word;
+}
+
+h2 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin: clamp(2rem, 5vw, 4rem) 0 clamp(1rem, 3vw, 2rem);
+    padding: 1rem;
+    background: #000;
+    color: #fff;
+}
+
+/* Header and Navigation */
+header {
+    background: #000;
+    width: 100%;
+    padding-bottom: clamp(1rem, 3vw, 2rem);
+    position: relative;
+}
+
+.menu-toggle {
+    display: none;
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    width: 48px;
+    height: 48px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 100;
+}
+
+.menu-line {
+    display: block;
+    width: 100%;
+    height: 4px;
+    background: #fff;
+    margin: 6px 0;
+    transition: 0.2s;
+}
+
+.menu-toggle.active .menu-line:nth-child(1) {
+    transform: translateY(10px) rotate(45deg);
+}
+
+.menu-toggle.active .menu-line:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-toggle.active .menu-line:nth-child(3) {
+    transform: translateY(-10px) rotate(-45deg);
+}
+
+nav {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: clamp(1rem, 3vw, 2rem);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
+    gap: 1rem;
+}
+
+nav a {
+    font-family: 'Space Grotesk', sans-serif;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+    padding: clamp(0.75rem, 2vw, 1rem);
+    display: block;
+    text-align: center;
+    background: transparent;
+    border: 4px solid #fff;
+    text-transform: uppercase;
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+}
+
+nav a:hover {
+    background: #fff;
+    color: #000;
+}
+
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: block;
+    }
+
+    .nav-menu {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background: #0078D7;
+        padding: 6rem 2rem 2rem;
+        transform: translateX(100%);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 90;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+    }
+
+    .nav-menu.active {
+        transform: translateX(0);
+    }
+
+    .nav-menu a {
+        font-size: 2rem;
+        border: none;
+        padding: 1rem;
+        width: 100%;
+        max-width: 400px;
+    }
+
+    .nav-menu a:hover {
+        background: #fff;
+        color: #0078D7;
+    }
+
+    .menu-toggle.active .menu-line {
+        background: #fff;
+    }
+
+    nav {
+        padding: 0;
+    }
+}
+
+/* Sections */
+section {
+    margin-bottom: clamp(2rem, 5vw, 4rem);
+    border: 4px solid #000;
+    padding: clamp(1rem, 3vw, 2rem);
+}
+
+.intro p {
+    font-size: clamp(1.2rem, 3vw, 1.6rem);
+    margin: clamp(1rem, 3vw, 2rem) 0;
+}
+
+/* Blog Posts */
+.post-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+    gap: clamp(1rem, 3vw, 2rem);
+}
+
+.post-item {
+    border: 4px solid #000;
+    padding: clamp(1rem, 3vw, 2rem);
+}
+
+.post-item:hover {
+    background: #000;
+    color: #fff;
+}
+
+.post-date {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    border-top: 4px solid currentColor;
+    margin-top: clamp(1rem, 3vw, 2rem);
+    padding-top: clamp(0.75rem, 2vw, 1rem);
+    font-weight: 700;
+}
+
+/* Footer */
+footer {
+    background: #000;
+    color: #fff;
+    padding: clamp(1rem, 3vw, 2rem);
+    margin-top: clamp(2rem, 5vw, 4rem);
+    text-align: center;
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+}
+
+/* Code Blocks */
+pre {
+    background: #000;
+    color: #fff;
+    padding: clamp(1rem, 3vw, 2rem);
+    margin: clamp(1rem, 3vw, 2rem) 0;
+    border: 4px solid #000;
+    font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+code {
+    font-family: 'JetBrains Mono', monospace;
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) {
+    nav a:active {
+        background: #fff;
+        color: #000;
+    }
+
+    .post-item:active {
+        background: #000;
+        color: #fff;
+    }
+}
+
+/* Small Screen Optimizations */
+@media (max-width: 480px) {
+    nav {
+        padding: 1rem;
+    }
+
+    nav a {
+        padding: 0.75rem;
+    }
+
+    section {
+        margin-bottom: 2rem;
+    }
+
+    pre {
+        margin: 1rem -1rem;
+        padding: 1rem;
+    }
+
+    .post-list {
+        gap: 1rem;
+    }
+}
+
+/* Scroll Bar */
+::-webkit-scrollbar {
+    width: clamp(8px, 2vw, 16px);
+}
+
+::-webkit-scrollbar-track {
+    background: #fff;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #000;
+    border: 4px solid #fff;
+}
+
+/* Selection Style */
+::selection {
+    background: #000;
+    color: #fff;
+} 
