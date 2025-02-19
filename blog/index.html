@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog | Max Post</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <!-- Abstract Shapes -->
+    <div class="abstract-shape shape-1"></div>
+    <div class="abstract-shape shape-2"></div>
+    <div class="abstract-shape shape-3"></div>
+
+    <header>
+        <h1>BLOG</h1>
+        <button class="menu-toggle" aria-label="Toggle menu">
+            <span class="menu-line"></span>
+            <span class="menu-line"></span>
+            <span class="menu-line"></span>
+        </button>
+        <nav class="nav-menu">
+            <a href="../index.html">HOME</a>
+            <a href="index.html">BLOG</a>
+            <a href="https://github.com/maxpost" target="_blank">GITHUB</a>
+            <a href="https://linkedin.com/in/max-c-post" target="_blank">LINKEDIN</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="post-list">
+            <article class="post-item">
+                <h2>AI Building Communities</h2>
+                <div class="post-date">February 20, 2025</div>
+                <p>We are creating systems that provide real value that can be used to exponentially increase our ability to develop master planned communities.</p>
+                <a href="sample-post.html" class="read-more">Read More</a>
+            </article>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2024 Max Post</p>
+    </footer>
+
+    <script>
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            this.classList.toggle('active');
+            document.querySelector('.nav-menu').classList.toggle('active');
+        });
+    </script>
+</body>
+</html> 

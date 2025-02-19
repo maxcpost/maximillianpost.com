@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Building Communities | Max Post</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        /* Additional styles specific to blog posts */
+        .post-content {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            position: relative;
+            letter-spacing: -0.02em;
+        }
+        
+        .post-content p {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            border-left: 4px solid #000;
+            transform: skew(-1deg);
+        }
+        
+        .post-header {
+            margin-bottom: 4rem;
+            position: relative;
+        }
+        
+        .post-header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            line-height: 1.1;
+        }
+        
+        .post-date {
+            margin: 1rem 0;
+            font-size: 1.2rem;
+            transform: skew(-5deg);
+            display: inline-block;
+            border: 4px solid #fff;
+            padding: 0.5rem 1rem;
+            background: #000;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            color: #fff;
+        }
+
+        .post-date::after {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: -1;
+        }
+        
+        pre {
+            background: #fff;
+            padding: 2rem;
+            overflow-x: auto;
+            margin: 2rem -2rem;
+            border: 4px solid #000;
+            transform: skew(-2deg);
+        }
+        
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.1rem;
+            letter-spacing: -0.02em;
+        }
+
+        blockquote {
+            margin: 2rem 0;
+            padding: 2rem;
+            border: 4px solid #000;
+            transform: skew(-2deg);
+            background: #fff;
+            position: relative;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.3rem;
+            letter-spacing: -0.03em;
+        }
+
+        blockquote::after {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: -1;
+        }
+
+        img {
+            max-width: 100%;
+            border: 4px solid #000;
+            transform: skew(-1deg);
+            margin: 2rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .post-content p,
+            blockquote,
+            pre,
+            .post-date {
+                transform: none;
+            }
+
+            pre {
+                margin: 2rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Abstract Shapes -->
+    <div class="abstract-shape shape-1"></div>
+    <div class="abstract-shape shape-2"></div>
+    <div class="abstract-shape shape-3"></div>
+
+    <header>
+        <button class="menu-toggle" aria-label="Toggle menu">
+            <span class="menu-line"></span>
+            <span class="menu-line"></span>
+            <span class="menu-line"></span>
+        </button>
+        <nav class="nav-menu">
+            <a href="../index.html">HOME</a>
+            <a href="index.html">BLOG</a>
+            <a href="https://github.com/maxpost" target="_blank">GITHUB</a>
+            <a href="https://linkedin.com/in/max-c-post" target="_blank">LINKEDIN</a>
+        </nav>
+    </header>
+
+    <main>
+        <article>
+            <div class="post-header">
+                <h1>AI Building Communities</h1>
+                <div class="post-date">February 20, 2025</div>
+            </div>
+            
+            <div class="post-content">
+                <p>
+                    The project that I am working on with the team is not just another AI initiative—it’s about creating systems that provide real value that can be used to exponentually increase our ability to develop master planned communities.
+                </p>
+                
+                <p>
+                    As an AI systems engineer on this project, my role is clear: <b>push the limits.</b> I’m developing architectures that are faster, smarter, and more scalable. We’re not going to follow trends—we’re going to define them.
+                </p>
+                
+                <p>
+                    We have been able to already save countless hours of human runtime by using the initial beta version of our system. Spicifically the current version of the system is able to compleate a task that would take a human 35-45 minutes in only 1-2 minutes. The next steps are to continue to build out the system and continue to push the limits of what is possible.
+                </p>
+            </div>
+        </article>
+    </main>
+
+    <footer>
+        <p>© 2024 Max Post</p>
+    </footer>
+
+    <script>
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            this.classList.toggle('active');
+            document.querySelector('.nav-menu').classList.toggle('active');
+        });
+    </script>
+</body>
+</html> 
