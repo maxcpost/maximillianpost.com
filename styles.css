@@ -1,20 +1,30 @@
 /* Google Fonts Import */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Nunito:wght@300;400;600;700&family=Caveat:wght@400;500;600&display=swap');
 
 :root {
-    /* Color Palette - Dark Professional Tech Brand */
-    --color-primary: #00E5FF;         /* Vibrant Cyan */
-    --color-primary-light: #5FFFFF;   /* Light Cyan */
-    --color-primary-dark: #00B8D4;    /* Dark Cyan */
-    --color-accent: #FF3366;          /* Vibrant Magenta */
-    --color-accent2: #41B883;         /* Vibrant Green */
-    --color-background: #000000;      /* Black Background */
-    --color-surface: #111111;         /* Dark Surface */
-    --color-surface-secondary: #1A1A1A; /* Secondary Surface */
-    --color-text: #FFFFFF;            /* White Text */
-    --color-text-secondary: #AAAAAA;  /* Light Gray Text */
-    --color-border: #333333;          /* Dark Gray Border */
-    --color-shadow: rgba(0, 0, 0, 0.5); /* Dark Shadow */
+    /* Color Palette - The Little Prince Inspired */
+    --midnight-blue: #1D2951;    /* Deep night sky */
+    --dark-space: #0C1226;       /* Darker background for space */
+    --sunset-yellow: #F9D371;    /* The Prince's hair and desert sand */
+    --rose-pink: #E8A798;        /* The rose and sunset hues */
+    --pale-mint: #C5E8B7;        /* Planet foliage and accents */
+    --soft-lavender: #C9C2D5;    /* Twilight skies */
+    --cream: #FFFAED;            /* Paper-like texture */
+    --gold: #D4AF37;             /* Stars and special elements */
+    
+    /* Original palette kept for reference but not used */
+    --color-primary: var(--gold);
+    --color-primary-light: var(--sunset-yellow);
+    --color-primary-dark: var(--midnight-blue);
+    --color-accent: var(--rose-pink);
+    --color-accent2: var(--pale-mint);
+    --color-background: var(--dark-space);
+    --color-surface: rgba(29, 41, 81, 0.6);
+    --color-surface-secondary: rgba(29, 41, 81, 0.8);
+    --color-text: var(--cream);
+    --color-text-secondary: var(--soft-lavender);
+    --color-border: rgba(196, 194, 213, 0.2);
+    --color-shadow: rgba(0, 0, 0, 0.5);
     
     /* Spacing */
     --space-xs: 0.5rem;
@@ -28,6 +38,7 @@
     --radius-md: 12px;
     --radius-lg: 18px;
     --radius-xl: 24px;
+    --radius-circle: 50%;
 
     /* Typography scale */
     --text-xs: 0.75rem;   /* 12px */
@@ -61,15 +72,16 @@ html {
 }
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
     line-height: 1.5;
-    background-color: var(--color-background);
-    color: var(--color-text);
+    background-color: var(--dark-space);
+    color: var(--cream);
     margin: 0;
     padding: 0;
     min-height: 100vh;
     -webkit-text-size-adjust: 100%;
-    background-image: none;
+    position: relative;
+    overflow-x: hidden;
     
     /* Flex layout to push footer to bottom */
     display: flex;
@@ -77,11 +89,51 @@ body {
     min-height: 100vh;
 }
 
+/* Star field background */
+.star {
+    position: absolute;
+    background-color: var(--cream);
+    border-radius: 50%;
+    z-index: 0;
+}
+
+.star.twinkle {
+    animation: twinkle 4s infinite ease-in-out;
+}
+
+.star.shooting {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background-color: var(--gold);
+    border-radius: 50%;
+    animation: shooting 5s linear forwards;
+    opacity: 0;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.2); }
+}
+
+@keyframes shooting {
+    0% { 
+        transform: translateX(0) translateY(0); 
+        opacity: 1;
+    }
+    100% { 
+        transform: translateX(300px) translateY(300px); 
+        opacity: 0;
+    }
+}
+
 /* Layout */
 main {
     max-width: 1200px;
     margin: 0 auto;
     padding: var(--space-md);
+    position: relative;
+    z-index: 1;
     
     /* Make main content area grow to push footer down */
     flex: 1 0 auto;
@@ -89,11 +141,11 @@ main {
 
 /* Typography */
 h1, h2, h3 {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    font-weight: 600;
-    line-height: 1.1;
+    font-family: 'Playfair Display', serif;
+    font-weight: var(--font-semibold);
+    line-height: 1.2;
     margin-bottom: var(--space-md);
-    color: var(--color-text);
+    color: var(--cream);
     letter-spacing: -0.02em;
 }
 
@@ -121,31 +173,52 @@ h3 {
 p {
     margin-bottom: var(--space-md);
     font-size: 1.125rem;
-    color: var(--color-text);
+    color: var(--cream);
     line-height: 1.6;
     max-width: 75ch;
 }
 
 a {
-    color: var(--color-primary);
+    color: var(--sunset-yellow);
     text-decoration: none;
     transition: all 0.2s ease;
     border-bottom: none;
 }
 
 a:hover {
-    color: var(--color-primary-light);
+    color: var(--gold);
     border-bottom: none;
 }
 
 strong, b {
     font-weight: 600;
-    color: var(--color-text);
+    color: var(--sunset-yellow);
+}
+
+blockquote, .prince-quote {
+    font-family: 'Caveat', cursive;
+    font-size: 1.4em;
+    line-height: 1.4;
+    color: var(--rose-pink);
+    border-left: 3px solid var(--rose-pink);
+    padding-left: var(--space-md);
+    margin: var(--space-md) 0;
+    position: relative;
+}
+
+blockquote::before, .prince-quote::before {
+    content: '"';
+    font-size: 3em;
+    position: absolute;
+    left: -10px;
+    top: -20px;
+    color: var(--rose-pink);
+    opacity: 0.3;
 }
 
 /* Header and Navigation */
 header {
-    background: rgba(17, 17, 17, 0.8);
+    background: rgba(13, 18, 38, 0.8);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     width: 100%;
@@ -153,7 +226,7 @@ header {
     position: sticky;
     top: 0;
     z-index: 10;
-    box-shadow: 0 1px 10px rgba(0, 229, 255, 0.1);
+    box-shadow: 0 1px 10px rgba(212, 175, 55, 0.1);
 }
 
 header h1 {
@@ -161,36 +234,525 @@ header h1 {
     padding: 0 var(--space-md);
     max-width: 1200px;
     margin: 0 auto;
-    font-size: 1.5rem;
-    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
+.subtitle {
+    font-family: 'Caveat', cursive;
+    font-size: var(--text-md);
+    color: var(--sunset-yellow);
+    margin-left: var(--space-sm);
+    opacity: 0.8;
+}
+
+/* Cosmic Navigation */
+.cosmic-navigation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: var(--space-md);
+    padding-top: var(--space-xl);
+    gap: calc(var(--space-lg) * 1.5);
+    max-width: 1200px;
+    margin: 0 auto;
+    min-height: 160px;
+    position: relative;
+}
+
+/* Planet Styles with Realistic Features */
+.planet {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    overflow: visible;
+}
+
+.planet::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    opacity: 1;
+    mix-blend-mode: soft-light;
+    pointer-events: none;
+}
+
+.planet a {
+    display: block;
+    text-indent: -9999px;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    border-radius: 50%;
+    z-index: 2;
+}
+
+/* Planet label - create arching text effect */
+.planet-label {
+    position: absolute;
+    width: 100%;
+    bottom: -30px;
+    left: 0;
+    text-align: center;
+    font-size: var(--text-sm);
+    color: var(--cream);
+    font-weight: var(--font-medium);
+    pointer-events: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 10px;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.planet-label::before,
+.planet-label::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 40%;
+    height: 30px;
+    border-top: 2px dashed rgba(249, 211, 113, 0.3);
+    border-radius: 50%;
+}
+
+.planet-label::before {
+    left: 0;
+    transform: rotate(-10deg);
+}
+
+.planet-label::after {
+    right: 0;
+    transform: rotate(10deg);
+}
+
+/* The Little Prince figure */
+.little-prince {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 15px;
+    height: 30px;
+    background-image: url('prince.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: bottom center;
+    z-index: 20;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.planet.active {
+    border: 3px solid var(--gold);
+    transform: scale(1.2);
+    z-index: 5;
+}
+
+.planet.active .little-prince {
+    opacity: 1;
+}
+
+/* Path between planets */
+.planet-path {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Home Planet - Desert/Rose planet inspired by the Little Prince's asteroid B-612 */
+.home-planet {
+    background: linear-gradient(135deg, var(--sunset-yellow), var(--rose-pink));
+    box-shadow: 0 0 15px var(--sunset-yellow);
+}
+
+.home-planet::before {
+    background: radial-gradient(circle at 30% 40%, rgba(255, 255, 255, 0.4) 5%, transparent 8%),
+                radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.4) 4%, transparent 6%),
+                radial-gradient(circle at 40% 70%, rgba(255, 255, 255, 0.4) 3%, transparent 7%),
+                radial-gradient(circle at 20% 20%, rgba(0, 0, 0, 0.2) 5%, transparent 10%),
+                radial-gradient(circle at 60% 60%, rgba(0, 0, 0, 0.2) 6%, transparent 12%),
+                radial-gradient(circle at 80% 20%, rgba(0, 0, 0, 0.2) 4%, transparent 8%);
+}
+
+/* Blog Planet - Lush blue/green planet with oceans and continents */
+.blog-planet {
+    background: linear-gradient(135deg, var(--pale-mint), var(--soft-lavender));
+    box-shadow: 0 0 15px var(--pale-mint);
+}
+
+.blog-planet::before {
+    background: radial-gradient(circle at 25% 25%, rgba(197, 232, 183, 0.7) 5%, transparent 20%),
+                radial-gradient(circle at 75% 35%, rgba(197, 232, 183, 0.7) 10%, transparent 25%),
+                radial-gradient(circle at 65% 65%, rgba(197, 232, 183, 0.7) 7%, transparent 15%),
+                radial-gradient(circle at 30% 70%, rgba(197, 232, 183, 0.7) 8%, transparent 18%);
+}
+
+.blog-planet::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent 40%, rgba(255, 255, 255, 0.2) 45%, transparent 50%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+/* Code Planet - Tech-inspired dark planet with circuit patterns */
+.code-planet {
+    background: linear-gradient(135deg, var(--midnight-blue), var(--soft-lavender));
+    box-shadow: 0 0 15px var(--soft-lavender);
+}
+
+.code-planet::before {
+    background: 
+        linear-gradient(90deg, transparent 90%, rgba(255, 255, 255, 0.3) 90%, rgba(255, 255, 255, 0.3) 92%, transparent 92%) 0 0 / 20% 20%,
+        linear-gradient(0deg, transparent 90%, rgba(255, 255, 255, 0.3) 90%, rgba(255, 255, 255, 0.3) 92%, transparent 92%) 0 0 / 20% 20%,
+        radial-gradient(circle at 60% 40%, rgba(255, 255, 255, 0.3) 3%, transparent 5%),
+        radial-gradient(circle at 30% 70%, rgba(255, 255, 255, 0.3) 2%, transparent 4%);
+}
+
+/* LinkedIn Planet - Reddish/pink planet with rings */
+.linkedin-planet {
+    background: linear-gradient(135deg, var(--rose-pink), var(--midnight-blue));
+    box-shadow: 0 0 15px var(--rose-pink);
+    position: relative;
+}
+
+.linkedin-planet::before {
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3) 5%, transparent 15%),
+                radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.3) 4%, transparent 12%),
+                radial-gradient(circle at 20% 60%, rgba(0, 0, 0, 0.2) 6%, transparent 12%),
+                radial-gradient(circle at 60% 20%, rgba(0, 0, 0, 0.2) 5%, transparent 10%);
+}
+
+.linkedin-planet::after {
+    content: '';
+    position: absolute;
+    width: 140%;
+    height: 10px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    top: 50%;
+    left: -20%;
+    transform: translateY(-50%) rotate(-20deg);
+    opacity: 0.6;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.planet:hover {
+    transform: scale(1.3);
+    z-index: 10;
+}
+
+/* Media Queries for Responsive Planets */
+@media (min-width: 768px) {
+    .planet {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .little-prince {
+        width: 18px;
+        height: 36px;
+        top: -24px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .planet {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .planet-label {
+        font-size: var(--text-base);
+        bottom: -40px;
+    }
+    
+    .little-prince {
+        width: 22px;
+        height: 44px;
+        top: -30px;
+    }
+}
+
+@media (max-width: 768px), (prefers-reduced-motion) {
+    /* Reduce animations for better performance on mobile or when users prefer reduced motion */
+    .star.twinkle {
+        animation-duration: 6s; /* Slower twinkle */
+    }
+    
+    .star.shooting {
+        /* Limit the number of shooting stars on mobile */
+        opacity: 0;
+        animation: none;
+    }
+    
+    /* Reduce the number of stars on mobile for better performance */
+    .star:nth-child(2n+1) {
+        opacity: 0;
+    }
+    
+    /* Make toast notifications more compact */
+    .toast {
+        min-width: 250px;
+        max-width: 100%;
+        padding: 10px;
+    }
+    
+    .menu-toggle {
+        display: flex !important;
+    }
+    
+    .nav-menu {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 80%;
+        height: 100vh;
+        background: var(--dark-space);
+        display: flex;
+        flex-direction: column;
+        padding: 80px 20px 20px;
+        transition: right 0.3s ease;
+        z-index: 15;
+    }
+    
+    .nav-menu.active {
+        right: 0;
+    }
+    
+    .nav-menu a {
+        margin: 10px 0;
+        padding: 10px;
+        text-align: center;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .cosmic-navigation {
+        flex-wrap: wrap;
+        justify-content: space-around;
+        gap: var(--space-md);
+        padding: var(--space-sm);
+        padding-top: var(--space-lg);
+    }
+    
+    .planet {
+        width: 60px;
+        height: 60px;
+        margin: 8px;
+    }
+    
+    .planet-label {
+        font-size: var(--text-xs);
+        bottom: -22px;
+    }
+    
+    .little-prince {
+        width: 14px;
+        height: 28px;
+        top: -19px;
+    }
+    
+    .post-list {
+        grid-template-columns: 1fr;
+    }
+    
+    .intro-planet {
+        padding: var(--space-md);
+    }
+    
+    h1 {
+        font-size: calc(var(--text-3xl) - 0.5rem);
+        line-height: 1.2;
+    }
+    
+    h2 {
+        font-size: calc(var(--text-xl) - 0.25rem);
+    }
+    
+    .planet::before {
+        animation-duration: 180s;
+    }
+    
+    blockquote, .prince-quote {
+        font-size: 1.2em;
+        padding-left: var(--space-sm);
+    }
+    
+    footer {
+        padding: var(--space-md) var(--space-sm) var(--space-xs);
+    }
+    
+    main {
+        padding: var(--space-xs) var(--space-sm);
+        max-width: 100%;
+    }
+    
+    .planet-content {
+        padding: 0;
+        width: 100%;
+    }
+    
+    .post-list {
+        grid-template-columns: 1fr;
+        gap: var(--space-sm);
+        margin: 0;
+        width: 100%;
+    }
+    
+    .post-item {
+        padding: var(--space-sm);
+        margin-bottom: var(--space-sm);
+    }
+    
+    .prince-quote {
+        font-size: 1.2rem;
+        padding: 15px 20px;
+        margin: var(--space-sm) 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .cosmic-navigation {
+        width: 85%;
+        padding: 70px 15px 20px 30px;
+        gap: 15px;
+    }
+    
+    .cosmic-navigation .planet {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .cosmic-navigation .planet-label {
+        left: calc(100% + 12px);
+        font-size: 14px;
+        min-width: 100px;
+    }
+    
+    .cosmic-navigation .little-prince {
+        width: 15px;
+        height: 30px;
+    }
+    
+    /* Ensure Little Prince is visible even on smaller screens */
+    .cosmic-navigation .planet.active .little-prince {
+        left: -25px;
+        width: 14px;
+        height: 28px;
+    }
+    
+    .cosmic-navigation .planet-link {
+        margin: 10px 0;
+    }
+    
+    .cosmic-navigation .planet-link + .planet-link {
+        margin-top: 15px;
+    }
+    
+    main {
+        padding: var(--space-xs);
+    }
+    
+    .planet-content {
+        width: 100%;
+    }
+    
+    p {
+        font-size: 1rem;
+        line-height: 1.5;
+        margin-bottom: var(--space-xs);
+    }
+    
+    h1, h2, h3 {
+        margin-bottom: var(--space-xs);
+    }
+    
+    blockquote, .prince-quote {
+        margin: var(--space-xs) 0;
+        padding: 10px 15px;
+    }
+}
+
+@media (max-height: 480px) and (orientation: landscape) {
+    .cosmic-navigation {
+        min-height: 120px;
+        padding-top: var(--space-md);
+    }
+    
+    header {
+        padding: var(--space-xs) 0;
+    }
+    
+    .intro-planet {
+        padding: var(--space-sm);
+        margin-top: var(--space-sm);
+    }
+}
+
+/* Mobile Navigation Toggle */
 .menu-toggle {
     display: none;
-    position: absolute;
-    top: 1rem;
-    right: 1.5rem;
-    width: 44px;
-    height: 44px;
-    background: transparent;
+    background: none;
     border: none;
     cursor: pointer;
-    padding: 8px;
-    z-index: 100;
-    border-radius: var(--radius-sm);
+    padding: 10px;
+    z-index: 50;
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background-color: rgba(13, 18, 38, 0.8);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+}
+
+.menu-toggle:hover {
+    background-color: rgba(29, 41, 81, 0.9);
 }
 
 .menu-line {
     display: block;
-    width: 100%;
+    width: 25px;
     height: 2px;
-    background: var(--color-text);
-    margin: 6px 0;
-    transition: 0.3s;
+    background-color: var(--cream);
+    margin: 3px 0;
+    transition: all 0.3s ease;
 }
 
 .menu-toggle.active .menu-line:nth-child(1) {
-    transform: translateY(8px) rotate(45deg);
+    transform: rotate(45deg) translate(5px, 5px);
+    background-color: var(--sunset-yellow);
 }
 
 .menu-toggle.active .menu-line:nth-child(2) {
@@ -198,95 +760,257 @@ header h1 {
 }
 
 .menu-toggle.active .menu-line:nth-child(3) {
-    transform: translateY(-8px) rotate(-45deg);
+    transform: rotate(-45deg) translate(5px, -5px);
+    background-color: var(--sunset-yellow);
 }
 
-nav {
-    max-width: 1200px;
-    margin: var(--space-xs) auto 0;
-    padding: 0 var(--space-md);
-    display: flex;
-    justify-content: flex-start;
-    gap: var(--space-lg);
+/* Cosmic Navigation - Mobile Styles */
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: flex !important;
+    }
+    
+    .cosmic-navigation {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 85%;
+        max-width: 300px;
+        height: 100vh;
+        background: rgba(13, 18, 38, 0.95);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 80px 0 20px 40px;
+        gap: 25px;
+        transition: right 0.3s ease;
+        z-index: 25;
+        border-left: 1px solid rgba(212, 175, 55, 0.2);
+        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+        overflow-y: auto;
+        margin: 0;
+        min-height: 100vh;
+    }
+    
+    .cosmic-navigation.active {
+        right: 0;
+    }
+    
+    /* Update planet sizing for vertical display */
+    .cosmic-navigation .planet {
+        width: 70px;
+        height: 70px;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        position: relative;
+    }
+    
+    .cosmic-navigation .planet-label {
+        bottom: auto;
+        width: auto;
+        left: calc(100% + 15px);
+        top: 50%;
+        transform: translateY(-50%);
+        text-align: left;
+        min-width: 120px;
+        padding-top: 0;
+    }
+    
+    .cosmic-navigation .planet-label::before,
+    .cosmic-navigation .planet-label::after {
+        display: none;
+    }
+    
+    /* Position Little Prince correctly on vertical planets */
+    .cosmic-navigation .planet.active .little-prince {
+        top: 50%;
+        left: -30px;
+        transform: translateY(-50%);
+        opacity: 1;
+        width: 18px;
+        height: 36px;
+        filter: drop-shadow(0 0 5px rgba(249, 211, 113, 0.7));
+        z-index: 5;
+    }
+    
+    /* Keep transition for when active state changes */
+    .cosmic-navigation .little-prince {
+        transition: all 0.3s ease;
+        pointer-events: none;
+    }
+    
+    /* Add a special indicator for planets that have the Little Prince */
+    .cosmic-navigation .planet-link {
+        position: relative;
+    }
+    
+    .cosmic-navigation .planet-link::before {
+        content: '';
+        position: absolute;
+        left: -15px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 4px;
+        height: 0;
+        background: var(--gold);
+        transition: height 0.3s ease;
+        border-radius: 2px;
+        opacity: 0;
+    }
+    
+    /* Separate rule for active planet links */
+    .cosmic-navigation .planet-link-active::before {
+        height: 70%;
+        opacity: 0.7;
+    }
+    
+    /* Add active planet styling to make it clearer */
+    .cosmic-navigation .planet.active {
+        box-shadow: 0 0 15px var(--gold), 0 0 5px var(--sunset-yellow);
+    }
+    
+    /* Make each planet-link item a full row */
+    .cosmic-navigation .planet-link {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        margin: 15px 0;
+        padding: 5px 0;
+    }
+    
+    /* Ensure the planets are clearly stacked vertically */
+    .cosmic-navigation .planet-link + .planet-link {
+        margin-top: 20px;
+    }
+    
+    /* Add a subtle separator between planets */
+    .cosmic-navigation .planet-link:not(:last-child)::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: -20px;
+        width: calc(100% + 30px);
+        height: 1px;
+        background: linear-gradient(to right, transparent, rgba(212, 175, 55, 0.2), transparent);
+    }
+    
+    /* Modal backdrop when menu is open */
+    .menu-backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 24;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease;
+        pointer-events: auto;
+    }
+    
+    .menu-backdrop.active {
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    /* Hide desktop planet paths in mobile menu */
+    .cosmic-navigation .planet-path {
+        display: none;
+    }
+    
+    /* Add close button to the menu */
+    .cosmic-navigation::before {
+        content: '×';
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        font-size: 32px;
+        color: var(--cream);
+        cursor: pointer;
+    }
+    
+    /* Remove the title from the menu */
+    .cosmic-navigation::after {
+        content: '';
+        display: none;
+    }
 }
 
-nav a {
-    font-family: 'Inter', sans-serif;
-    color: var(--color-text);
-    text-decoration: none;
-    font-weight: 500;
-    padding: var(--space-xs) 0;
-    display: inline-block;
-    text-transform: none;
-    font-size: 0.9375rem;
-    letter-spacing: -0.01em;
+/* Small mobile adjustments */
+@media (max-width: 480px) {
+    .cosmic-navigation {
+        width: 85%;
+        padding: 70px 15px 20px 30px;
+        gap: 15px;
+    }
+    
+    .cosmic-navigation .planet {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .cosmic-navigation .planet-label {
+        left: calc(100% + 12px);
+        font-size: 14px;
+        min-width: 100px;
+    }
+    
+    .cosmic-navigation .little-prince {
+        width: 15px;
+        height: 30px;
+    }
+    
+    /* Ensure Little Prince is visible even on smaller screens */
+    .cosmic-navigation .planet.active .little-prince {
+        left: -25px;
+        width: 14px;
+        height: 28px;
+    }
+    
+    .cosmic-navigation .planet-link {
+        margin: 10px 0;
+    }
+    
+    .cosmic-navigation .planet-link + .planet-link {
+        margin-top: 15px;
+    }
+}
+
+/* Content Sections */
+.intro-planet {
     position: relative;
-    border-bottom: none;
+    background: linear-gradient(135deg, rgba(29, 41, 81, 0.7), rgba(12, 18, 38, 0.9));
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    margin-top: var(--space-lg);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
 }
 
-nav a::after {
+.intro-planet::before {
     content: '';
     position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 1px;
-    background: var(--color-primary);
-    transition: width 0.2s ease;
-}
-
-nav a:hover::after {
-    width: 100%;
-}
-
-nav a:hover {
-    color: var(--color-primary);
-}
-
-/* Sections */
-section {
-    margin-bottom: var(--space-xl);
-    background: var(--color-surface);
-    padding: var(--space-xl);
-    border-radius: var(--radius-md);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.05);
-    position: relative;
-    border-top: none;
-    overflow: hidden;
-}
-
-section::before {
-    display: none;
-}
-
-.intro p {
-    font-size: 1.25rem;
-    color: var(--color-text);
-    font-weight: 400;
-}
-
-.intro p:first-of-type::first-letter {
-    font-family: inherit;
-    float: none;
-    font-size: inherit;
-    line-height: inherit;
-    padding: 0;
-    color: inherit;
-}
-
-/* Add a subtle grid pattern to the background */
-body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: linear-gradient(rgba(0, 229, 255, 0.05) 1px, transparent 1px),
-                     linear-gradient(90deg, rgba(0, 229, 255, 0.05) 1px, transparent 1px);
-    background-size: 20px 20px;
+    top: -50px;
+    right: -50px;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, var(--sunset-yellow) 0%, transparent 70%);
+    opacity: 0.3;
+    border-radius: 50%;
     z-index: -1;
-    pointer-events: none;
+}
+
+.planet-content {
+    position: relative;
+    z-index: 2;
 }
 
 /* Blog Posts */
@@ -297,26 +1021,26 @@ body::before {
 }
 
 .post-item {
-    background: var(--color-surface);
+    background: linear-gradient(135deg, rgba(29, 41, 81, 0.9), rgba(12, 18, 38, 0.8));
     border-radius: var(--radius-md);
     padding: var(--space-md);
     transition: all 0.2s ease;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.05);
-    border: none;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(212, 175, 55, 0.1);
     display: flex;
     flex-direction: column;
     position: relative;
     overflow: hidden;
     animation: fadeInUp 0.4s ease-out;
     animation-fill-mode: both;
-    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Smooth easing */
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 /* Make the entire post item a clickable area */
 .post-item-link {
     display: block;
     text-decoration: none;
-    color: var(--color-text);
+    color: var(--cream);
     flex: 1;
     margin-bottom: var(--space-md);
     position: relative;
@@ -326,12 +1050,12 @@ body::before {
 }
 
 .post-item-link:hover {
-    color: var(--color-text);
+    color: var(--cream);
     text-decoration: none;
 }
 
 .post-item-link:hover h2 {
-    color: var(--color-primary);
+    color: var(--sunset-yellow);
     transition: color 0.2s ease;
 }
 
@@ -342,13 +1066,13 @@ body::before {
     left: 0;
     width: 4px;
     height: 0;
-    background: var(--color-primary);
+    background: var(--sunset-yellow);
     transition: height 0.3s ease;
 }
 
 .post-item:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(0, 229, 255, 0.1);
+    transform: translateY(-5px) rotate(1deg);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(249, 211, 113, 0.1);
 }
 
 .post-item:hover::after {
@@ -358,7 +1082,7 @@ body::before {
 .post-item h2 {
     margin-top: 0;
     font-size: 1.5rem;
-    color: var(--color-text);
+    color: var(--cream);
     border-bottom: none;
     display: block;
     padding-bottom: 0;
@@ -366,432 +1090,47 @@ body::before {
 }
 
 .post-date {
-    font-family: 'Inter', sans-serif;
-    color: var(--color-text-secondary);
-    margin: var(--space-xs) 0 var(--space-sm);
-    font-size: 0.875rem;
+    color: var(--soft-lavender);
+    font-size: var(--text-sm);
+    margin-bottom: var(--space-sm);
 }
 
+/* Read More Button */
 .read-more {
-    margin-top: auto;
-    align-self: flex-start;
-    padding: var(--space-xs) var(--space-sm);
-    border: none;
-    border-radius: var(--radius-sm);
-    font-weight: 500;
-    font-size: 0.875rem;
-    margin-top: var(--space-md);
+    display: inline-block;
+    color: var(--sunset-yellow);
+    font-weight: 600;
     transition: all 0.2s ease;
-    background-color: var(--color-primary);
-    color: #000000;
     position: relative;
-    overflow: hidden;
+    padding: var(--space-xs) var(--space-sm);
+    align-self: flex-start;
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    background: rgba(29, 41, 81, 0.5);
+}
+
+.read-more::before {
+    content: "★";
+    font-size: 12px;
+    margin-right: 6px;
+    color: var(--gold);
+    transition: transform 0.2s;
+    display: inline-block;
 }
 
 .read-more:hover {
-    background: var(--color-primary-light);
-    color: #000000;
-    box-shadow: 0 0 15px rgba(0, 229, 255, 0.4);
+    background: rgba(29, 41, 81, 0.7);
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+    color: var(--gold);
 }
 
-.read-more::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 5px;
-    height: 5px;
-    background: rgba(255, 255, 255, 0.8);
-    opacity: 0;
-    border-radius: 100%;
-    transform: scale(1, 1) translate(-50%, -50%);
-    transform-origin: 50% 50%;
-}
-
-@keyframes ripple {
-    0% {
-        transform: scale(0, 0);
-        opacity: 0.5;
-    }
-    100% {
-        transform: scale(200, 200);
-        opacity: 0;
-    }
-}
-
-.read-more:active::after {
-    animation: ripple 0.6s ease-out;
-}
-
-/* Blog Post Content */
-.post-content {
-    font-size: 1.125rem;
-    line-height: 1.7;
-}
-
-.post-content p {
-    margin-bottom: var(--space-md);
-}
-
-.post-content p:first-of-type::first-letter {
-    font-family: inherit;
-    float: none;
-    font-size: inherit;
-    line-height: inherit;
-    padding: 0;
-    color: inherit;
-}
-
-.post-header {
-    margin-bottom: var(--space-lg);
-    position: relative;
-    padding-bottom: var(--space-md);
-    border-bottom: 1px solid var(--color-border);
-}
-
-.post-header h1 {
-    margin-bottom: var(--space-xs);
-}
-
-.post-header .post-date {
-    font-size: 1rem;
-    color: var(--color-text-secondary);
-    display: block;
-    margin-bottom: var(--space-md);
-}
-
-article {
-    background: var(--color-surface);
-    padding: var(--space-xl);
-    border-radius: var(--radius-md);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.05);
-}
-
-/* Abstract Shapes - Replaced with minimal geometric elements */
-.abstract-shape {
-    display: none;
-}
-
-/* Add professional geometric accent elements with glow */
-.tech-accent {
-    position: absolute;
-    background: var(--color-primary);
-    opacity: 0.1;
-    z-index: 0;
-    filter: blur(40px);
-}
-
-.accent-1 {
-    width: 200px;
-    height: 200px;
-    top: -100px;
-    right: -50px;
-    border-radius: 12px;
-    transform: rotate(45deg);
-}
-
-.accent-2 {
-    width: 150px;
-    height: 150px;
-    bottom: -75px;
-    left: 10%;
-    border-radius: 50%;
-}
-
-/* Footer */
-footer {
-    background: var(--color-surface);
-    border-top: 1px solid var(--color-border);
-    padding: var(--space-lg) var(--space-md);
-    text-align: center;
-    color: var(--color-text-secondary);
-    font-size: 0.875rem;
-    position: relative;
-    margin-top: var(--space-xl);
-    
-    /* Ensure footer doesn't shrink and stays at bottom */
-    flex-shrink: 0;
-}
-
-footer::before {
-    display: none;
-}
-
-/* Code Blocks */
-pre {
-    background: #0D1117;
-    color: #E6EDF3;
-    padding: var(--space-md);
-    border-radius: var(--radius-md);
-    overflow-x: auto;
-    font-size: 0.9rem;
-    margin: var(--space-md) 0;
-    border: 1px solid #30363D;
-}
-
-code {
-    font-family: 'SF Mono', 'Menlo', 'Monaco', 'Courier New', monospace;
-}
-
-/* Mobile Adjustments */
-@media (max-width: 768px) {
-    .menu-toggle {
-        display: block;
-    }
-
-    .nav-menu {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100vh;
-        background: var(--color-surface);
-        padding: 5rem 2rem 2rem;
-        transform: translateX(-100%);
-        transition: transform 0.3s ease;
-        z-index: 90;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: var(--space-md);
-    }
-
-    .nav-menu.active {
-        transform: translateX(0);
-    }
-
-    .nav-menu a {
-        font-size: 1.125rem;
-    }
-
-    section, article {
-        padding: var(--space-md);
-    }
-}
-
-/* Selection Style */
-::selection {
-    background: var(--color-primary);
-    color: #000000;
-}
-
-/* Scrollbar */
-::-webkit-scrollbar {
-    width: 8px;
-}
-
-::-webkit-scrollbar-track {
-    background: var(--color-surface);
-}
-
-::-webkit-scrollbar-thumb {
-    background: var(--color-primary-dark);
-    border: 2px solid var(--color-surface);
-    border-radius: 4px;
-}
-
-/* Add CSS variables for animation */
-:root {
-    --transition-fast: 0.2s;
-    --transition-standard: 0.3s;
-}
-
-/* Add professional button styles for use elsewhere */
-.button {
-    display: inline-block;
-    padding: 0.75rem 1.5rem;
-    background-color: var(--color-primary);
-    color: #000000;
-    border-radius: var(--radius-sm);
-    font-weight: 500;
-    transition: all var(--transition-fast) ease;
-    text-align: center;
-    border: none;
-    cursor: pointer;
-    box-shadow: 0 0 0 0 rgba(0, 229, 255, 0);
-    position: relative;
-    overflow: hidden;
-}
-
-.button:hover {
-    background-color: var(--color-primary-light);
-    box-shadow: 0 0 15px rgba(0, 229, 255, 0.4);
-}
-
-.button::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 5px;
-    height: 5px;
-    background: rgba(255, 255, 255, 0.8);
-    opacity: 0;
-    border-radius: 100%;
-    transform: scale(1, 1) translate(-50%, -50%);
-    transform-origin: 50% 50%;
-}
-
-.button:active::after {
-    animation: ripple 0.6s ease-out;
-}
-
-.button-secondary {
-    background-color: transparent;
-    color: var(--color-primary);
-    border: 1px solid var(--color-primary);
-}
-
-.button-secondary:hover {
-    background-color: rgba(0, 229, 255, 0.1);
-    box-shadow: 0 0 15px rgba(0, 229, 255, 0.2);
-}
-
-/* Add a hero section styling for homepage */
-.hero {
-    padding: var(--space-xl) 0;
-    text-align: center;
-    max-width: 800px;
-    margin: 0 auto var(--space-xl);
-    position: relative;
-}
-
-.hero::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle at center, rgba(0, 229, 255, 0.15), transparent 50%);
-    z-index: -1;
-    pointer-events: none;
-}
-
-.hero h1 {
-    font-size: clamp(2.5rem, 8vw, 5rem);
-    margin-bottom: var(--space-md);
-    line-height: 1;
-    text-shadow: 0 0 10px rgba(0, 229, 255, 0.2);
-}
-
-.hero p {
-    font-size: clamp(1.125rem, 3vw, 1.5rem);
-    color: var(--color-text-secondary);
-    margin: 0 auto var(--space-lg);
-    max-width: 600px;
-}
-
-/* Accessibility Improvements */
-@media (prefers-reduced-motion: reduce) {
-    * {
-        animation-duration: 0.001ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.001ms !important;
-        scroll-behavior: auto !important;
-    }
-}
-
-/* Improved Focus States */
-a:focus-visible, 
-button:focus-visible,
-input:focus-visible,
-textarea:focus-visible,
-select:focus-visible {
-    outline: 2px solid var(--color-primary);
-    outline-offset: 3px;
-    box-shadow: 0 0 0 4px rgba(0, 229, 255, 0.2);
-}
-
-/* Skip to content link for keyboard users */
-.skip-link {
-    position: absolute;
-    top: -40px;
-    left: 0;
-    background: var(--color-primary);
-    color: #000000;
-    padding: 8px;
-    z-index: 100;
-    transition: top 0.2s ease;
-}
-
-.skip-link:focus {
-    top: 0;
-}
-
-/* Improve text readability */
-p, li, td, th, blockquote {
-    font-size: 1.125rem;
-    line-height: 1.7;
-    color: var(--color-text);
-    max-width: 75ch;
-}
-
-/* Higher contrast for secondary text */
-.post-date,
-footer,
-.text-secondary {
-    color: #C0C0C0; /* Lighter gray for better contrast against black */
-}
-
-/* Staggered animation for multiple items */
-.post-list .post-item:nth-child(1) { animation-delay: 0.1s; }
-.post-list .post-item:nth-child(2) { animation-delay: 0.2s; }
-.post-list .post-item:nth-child(3) { animation-delay: 0.3s; }
-.post-list .post-item:nth-child(4) { animation-delay: 0.4s; }
-.post-list .post-item:nth-child(5) { animation-delay: 0.5s; }
-
-/* Improved button feedback */
-.button, .read-more {
-    position: relative;
-    overflow: hidden;
-}
-
-.button::after, .read-more::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 5px;
-    height: 5px;
-    background: rgba(255, 255, 255, 0.8);
-    opacity: 0;
-    border-radius: 100%;
-    transform: scale(1, 1) translate(-50%, -50%);
-    transform-origin: 50% 50%;
-}
-
-@keyframes ripple {
-    0% {
-        transform: scale(0, 0);
-        opacity: 0.5;
-    }
-    100% {
-        transform: scale(200, 200);
-        opacity: 0;
-    }
-}
-
-.button:active::after, .read-more:active::after {
-    animation: ripple 0.6s ease-out;
-}
-
-/* Improved focus indication for interactive elements */
-a, button, .button, .read-more, input, select, textarea {
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-a:hover, button:hover, .button:hover, .read-more:hover {
-    transform: translateY(-2px);
-}
-
-a:active, button:active, .button:active, .read-more:active {
-    transform: translateY(1px);
+.read-more:hover::before {
+    transform: scale(1.2) rotate(72deg);
 }
 
 /* Link hover effect */
 a:not(.button):not(.read-more):not(.post-item-link) {
-    background-image: linear-gradient(transparent calc(100% - 2px), var(--color-primary) 2px);
+    background-image: linear-gradient(transparent calc(100% - 2px), var(--sunset-yellow) 2px);
     background-repeat: no-repeat;
     background-size: 0% 100%;
     transition: background-size 0.3s;
@@ -803,383 +1142,579 @@ a:not(.button):not(.read-more):not(.post-item-link):hover {
     background-size: 100% 100%;
 }
 
-/* Theme Toggle Button */
-.theme-toggle {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    color: var(--color-primary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    z-index: 100;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    transition: all 0.3s ease;
+/* Footer */
+footer {
+    background: linear-gradient(to top, var(--dark-space), rgba(29, 41, 81, 0.8));
+    border-top: 1px solid rgba(212, 175, 55, 0.2);
+    padding: var(--space-lg) var(--space-md) var(--space-sm);
+    text-align: center;
+    color: var(--soft-lavender);
+    font-size: 0.875rem;
+    position: relative;
+    margin-top: var(--space-xl);
+    
+    /* Ensure footer doesn't shrink and stays at bottom */
+    flex-shrink: 0;
+    
+    /* Add subtle star-like sparkles to match cosmic theme */
+    background-image: 
+        radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.1) 1px, transparent 2px),
+        radial-gradient(circle at 30% 70%, rgba(255, 255, 255, 0.1) 1px, transparent 2px),
+        radial-gradient(circle at 50% 40%, rgba(255, 255, 255, 0.1) 1px, transparent 2px),
+        radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.1) 1px, transparent 2px),
+        radial-gradient(circle at 90% 80%, rgba(255, 255, 255, 0.1) 1px, transparent 2px);
 }
 
-.theme-toggle:hover {
-    transform: rotate(30deg);
-    box-shadow: 0 0 15px rgba(0, 229, 255, 0.3);
-}
-
-.theme-toggle svg {
-    width: 24px;
-    height: 24px;
-    fill: var(--color-primary);
+.footer-quote {
+    font-style: italic;
+    margin: 0 auto var(--space-sm);
+    max-width: 80%;
+    opacity: 0.9;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
 }
 
 /* Scroll to Top Button */
 .scroll-top {
     position: fixed;
-    bottom: 80px;
+    bottom: 20px;
     right: 20px;
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
+    background: var(--midnight-blue);
+    border: 2px solid var(--gold);
     border-radius: 50%;
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    color: var(--color-primary);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    z-index: 100;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    transition: all 0.3s ease;
     opacity: 0;
     visibility: hidden;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+    z-index: 1000;
 }
 
 .scroll-top.visible {
     opacity: 1;
     visibility: visible;
-}
-
-.scroll-top:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 0 15px rgba(0, 229, 255, 0.3);
-}
-
-.scroll-top svg {
-    width: 24px;
-    height: 24px;
-    fill: var(--color-primary);
-}
-
-/* Toast Notification */
-.toast-container {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    z-index: 1000;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.toast {
-    background: var(--color-surface);
-    border-left: 4px solid var(--color-primary);
-    padding: 16px 20px;
-    border-radius: var(--radius-sm);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    display: flex;
-    align-items: center;
-    min-width: 300px;
-    max-width: 450px;
-    animation: slideInLeft 0.3s, fadeOut 0.5s 3s forwards;
-}
-
-.toast.success {
-    border-left-color: var(--color-accent2);
-}
-
-.toast.error {
-    border-left-color: var(--color-accent);
-}
-
-.toast-icon {
-    margin-right: 12px;
-    font-size: 20px;
-}
-
-.toast-content {
-    flex: 1;
-}
-
-.toast-title {
-    font-weight: 600;
-    margin-bottom: 4px;
-}
-
-.toast-message {
-    font-size: 0.875rem;
-    color: var(--color-text-secondary);
-}
-
-.toast-close {
-    background: transparent;
-    border: none;
-    color: var(--color-text-secondary);
-    cursor: pointer;
-    padding: 4px;
-}
-
-@keyframes slideInLeft {
-    from {
-        transform: translateX(-100%);
-        opacity: 0;
-    }
-    to {
-        transform: translateX(0);
-        opacity: 1;
-    }
-}
-
-@keyframes fadeOut {
-    to {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-}
-
-/* Loading Indicator */
-.loading {
-    display: inline-block;
-    position: relative;
-    width: 80px;
-    height: 80px;
-    margin: 0 auto;
-}
-
-.loading div {
-    position: absolute;
-    top: 33px;
-    width: 13px;
-    height: 13px;
-    border-radius: 50%;
-    background: var(--color-primary);
-    animation-timing-function: cubic-bezier(0, 1, 1, 0);
-}
-
-.loading div:nth-child(1) {
-    left: 8px;
-    animation: loading1 0.6s infinite;
-}
-
-.loading div:nth-child(2) {
-    left: 8px;
-    animation: loading2 0.6s infinite;
-}
-
-.loading div:nth-child(3) {
-    left: 32px;
-    animation: loading2 0.6s infinite;
-}
-
-.loading div:nth-child(4) {
-    left: 56px;
-    animation: loading3 0.6s infinite;
-}
-
-@keyframes loading1 {
-    0% {
-        transform: scale(0);
-    }
-    100% {
-        transform: scale(1);
-    }
-}
-
-@keyframes loading2 {
-    0% {
-        transform: translate(0, 0);
-    }
-    100% {
-        transform: translate(24px, 0);
-    }
-}
-
-@keyframes loading3 {
-    0% {
-        transform: scale(1);
-    }
-    100% {
-        transform: scale(0);
-    }
-}
-
-/* Advanced article layout with drop caps */
-.advanced-article p:first-of-type {
-    font-size: var(--text-lg);
-    margin-bottom: 1.5em;
-}
-
-.advanced-article p:first-of-type::first-letter {
-    float: left;
-    font-size: 4em;
-    line-height: 0.8;
-    font-weight: var(--font-bold);
-    margin-right: 0.1em;
-    color: var(--color-primary);
-}
-
-/* Grid layout systems */
-.grid {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    gap: var(--space-md);
-}
-
-.col-span-1 { grid-column: span 1; }
-.col-span-2 { grid-column: span 2; }
-.col-span-3 { grid-column: span 3; }
-.col-span-4 { grid-column: span 4; }
-.col-span-5 { grid-column: span 5; }
-.col-span-6 { grid-column: span 6; }
-.col-span-7 { grid-column: span 7; }
-.col-span-8 { grid-column: span 8; }
-.col-span-9 { grid-column: span 9; }
-.col-span-10 { grid-column: span 10; }
-.col-span-11 { grid-column: span 11; }
-.col-span-12 { grid-column: span 12; }
-
-/* Auto-fill gallery for portfolios or image collections */
-.gallery {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    grid-gap: var(--space-md);
-    margin: var(--space-md) 0;
-}
-
-.gallery-item {
-    overflow: hidden;
-    border-radius: var(--radius-md);
-    position: relative;
-    aspect-ratio: 16/9;
-    background-color: var(--color-surface-secondary);
-}
-
-.gallery-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s ease;
-}
-
-.gallery-item:hover img {
-    transform: scale(1.05);
-}
-
-.gallery-caption {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(5px);
-    padding: var(--space-sm);
-    color: white;
-    transform: translateY(100%);
-    transition: transform 0.3s ease;
-}
-
-.gallery-item:hover .gallery-caption {
     transform: translateY(0);
 }
 
-/* Card Variants */
-.card {
-    background: var(--color-surface);
-    border-radius: var(--radius-md);
-    padding: var(--space-md);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.05);
+.scroll-top svg {
+    fill: var(--gold);
+    width: 20px;
+    height: 20px;
 }
 
-.card-horizontal {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: var(--space-md);
+.scroll-top:hover {
+    background-color: var(--dark-space);
+    transform: translateY(-3px);
+}
+
+/* Toast Notifications */
+.toast-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    max-width: 90%;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    pointer-events: none;
+}
+
+.toast {
+    background-color: rgba(0, 0, 0, 0.85);
+    color: white;
+    padding: 12px 16px;
+    border-radius: 4px;
+    margin-top: 8px;
+    transform: translateX(100%);
+    opacity: 0;
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+    max-width: 300px;
+    min-width: 200px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-size: 14px;
+    pointer-events: auto;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
 }
 
-.card-minimal {
-    background: transparent;
-    padding: 0;
-    box-shadow: none;
+.toast-visible {
+    transform: translateX(0);
+    opacity: 1;
 }
 
-.card-featured {
-    border-left: 4px solid var(--color-primary);
-    background: linear-gradient(to right, rgba(0, 229, 255, 0.05), transparent 50%);
+.toast-hiding {
+    opacity: 0;
+    transform: translateY(-20px);
 }
 
-/* Table Styles */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: var(--space-md) 0;
+.toast-success {
+    background-color: rgba(0, 128, 0, 0.85);
+    border-left: 4px solid #00a000;
 }
 
-th {
-    background-color: var(--color-surface-secondary);
-    font-weight: var(--font-semibold);
-    text-align: left;
-    padding: var(--space-sm);
-    border-bottom: 1px solid var(--color-border);
+.toast-error {
+    background-color: rgba(220, 53, 69, 0.85);
+    border-left: 4px solid #ff4136;
 }
 
-td {
-    padding: var(--space-sm);
-    border-bottom: 1px solid var(--color-border);
+.toast-info {
+    background-color: rgba(0, 123, 255, 0.85);
+    border-left: 4px solid #1e90ff;
 }
 
-tr:hover {
-    background-color: rgba(0, 229, 255, 0.03);
+.toast-close {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 18px;
+    cursor: pointer;
+    margin-left: 8px;
+    padding: 0 4px;
+    line-height: 1;
+    transition: color 0.2s;
 }
 
-/* Mobile Refinements */
+.toast-close:hover {
+    color: white;
+}
+
+/* Mobile adjustments for toasts */
 @media (max-width: 768px) {
-    :root {
-        --space-md: 1.5rem;
-        --space-lg: 2rem;
-        --space-xl: 3rem;
-    }
-    
-    .grid {
-        grid-template-columns: repeat(4, 1fr);
-    }
-    
-    .col-span-1, .col-span-2, .col-span-3, .col-span-4, 
-    .col-span-5, .col-span-6, .col-span-7, .col-span-8,
-    .col-span-9, .col-span-10, .col-span-11, .col-span-12 {
-        grid-column: 1 / -1; /* Full width on mobile */
-    }
-    
-    .card-horizontal {
-        grid-template-columns: 1fr;
-    }
-    
-    .mobile-hidden {
-        display: none;
-    }
-    
-    h1 {
-        font-size: var(--text-3xl);
-    }
-    
-    h2 {
-        font-size: var(--text-xl);
+    .toast-container {
+        bottom: 10px;
+        right: 10px;
+        left: 10px;
+        align-items: stretch;
     }
     
     .toast {
-        min-width: auto;
-        max-width: calc(100vw - 40px);
+        max-width: none;
+        min-width: 0;
+        width: 100%;
+        padding: 10px 12px;
+        font-size: 13px;
     }
-} 
+}
+
+/* Custom Cursor */
+#brutalist-cursor {
+    width: 15px;
+    height: 15px;
+    background-color: transparent !important;
+    border-radius: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    position: fixed;
+    pointer-events: none;
+    z-index: 999999 !important;
+    transition: transform 0.1s;
+}
+
+#brutalist-cursor::before {
+    content: "★";
+    font-size: 18px;
+    color: var(--gold);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#brutalist-cursor.hover::before {
+    content: "✦";
+    font-size: 24px;
+}
+
+#brutalist-cursor.hover::after {
+    content: "°";
+    position: absolute;
+    color: var(--pale-mint);
+    font-size: 10px;
+    top: -5px;
+    right: -5px;
+    animation: orbit 2s linear infinite;
+}
+
+#brutalist-cursor.click::before {
+    transform: translate(-50%, -50%) scale(0.7);
+}
+
+@keyframes orbit {
+    from { transform: rotate(0deg) translateX(10px) rotate(0deg); }
+    to { transform: rotate(360deg) translateX(10px) rotate(-360deg); }
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Remove the abstract shapes - they're replaced with stars */
+.abstract-shape {
+    display: none;
+}
+
+/* Planet Features Animation - subtle movement */
+@keyframes planetRotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.planet::before {
+    animation: planetRotate 120s linear infinite;
+}
+
+/* Add print styles to ensure the site looks good when printed */
+@media print {
+    body {
+        background-color: white;
+        color: black;
+    }
+    
+    .cosmic-navigation,
+    .star,
+    .menu-toggle,
+    .scroll-top {
+        display: none;
+    }
+    
+    main {
+        width: 100%;
+    }
+    
+    a {
+        color: black;
+        text-decoration: underline;
+    }
+}
+
+/* Add specific support for dark mode */
+@media (prefers-color-scheme: dark) {
+    :root {
+        /* Colors are already dark-mode friendly, but we can adjust if needed */
+        --cream: #FFFAED; /* Maintain good contrast */
+        --soft-lavender: #D9D2E5; /* Slightly brighter for better readability */
+    }
+}
+
+/* Add specific style for device orientation changes */
+@media screen and (orientation: portrait) {
+    /* Optimize spacing for portrait mode */
+    .cosmic-navigation {
+        gap: calc(var(--space-md) * 1.2);
+    }
+}
+
+@media screen and (orientation: landscape) and (max-height: 600px) {
+    /* Make the site more compact in landscape mode on small devices */
+    .cosmic-navigation {
+        min-height: 100px;
+    }
+    
+    main {
+        padding-top: var(--space-sm);
+    }
+    
+    h1, h2, h3 {
+        margin-bottom: var(--space-sm);
+    }
+    
+    p {
+        margin-bottom: var(--space-sm);
+    }
+}
+
+/* Prince Quote Styles */
+.quote-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 0 20px;
+    text-align: center;
+}
+
+.prince-quote {
+    font-size: 1.5rem;
+    line-height: 1.4;
+    color: var(--cream);
+    font-style: italic;
+    position: relative;
+    padding: 20px 40px;
+    margin: 0;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.prince-quote.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.prince-quote::before,
+.prince-quote::after {
+    content: '"';
+    position: absolute;
+    font-size: 3rem;
+    color: var(--sunset-yellow);
+    opacity: 0.4;
+}
+
+.prince-quote::before {
+    top: 0;
+    left: 0;
+}
+
+.prince-quote::after {
+    bottom: -20px;
+    right: 0;
+}
+
+.quote-attribution {
+    display: block;
+    margin-top: 10px;
+    font-style: normal;
+    font-size: 1rem;
+    color: var(--soft-lavender);
+}
+
+/* Blog Post Items */
+.post-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.post-item {
+    background: rgba(13, 20, 42, 0.7);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.post-item.hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.post-item.clicked {
+    transform: scale(0.98);
+    opacity: 0.8;
+}
+
+.post-item-image {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.post-item-content {
+    padding: 20px;
+}
+
+.post-item-title {
+    font-size: 1.3rem;
+    margin: 0 0 10px 0;
+    color: var(--cream);
+}
+
+.post-item-date {
+    font-size: 0.8rem;
+    color: var(--soft-lavender);
+    margin-bottom: 10px;
+    display: block;
+}
+
+.post-item-excerpt {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--pale-mint);
+    margin-bottom: 15px;
+}
+
+.read-more {
+    display: inline-block;
+    background: var(--sunset-yellow);
+    color: var(--midnight-blue);
+    padding: 8px 15px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: background 0.2s ease;
+}
+
+.read-more:hover {
+    background: #ffdb58;
+}
+
+/* Scroll To Top Button */
+.scroll-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    background: var(--sunset-yellow);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 100;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.scroll-to-top.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.scroll-to-top svg {
+    width: 20px;
+    height: 20px;
+    fill: var(--midnight-blue);
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+    .post-list {
+        grid-template-columns: 1fr;
+    }
+    
+    .prince-quote {
+        font-size: 1.2rem;
+        padding: 15px 30px;
+    }
+    
+    .prince-quote::before,
+    .prince-quote::after {
+        font-size: 2rem;
+    }
+    
+    .quote-attribution {
+        font-size: 0.9rem;
+    }
+    
+    .scroll-to-top {
+        bottom: 15px;
+        right: 15px;
+        width: 36px;
+        height: 36px;
+    }
+}
+
+/* Also restore the vertical layout for mobile navigation */
+@media (max-width: 480px) {
+    /* Remove the grid layout for cosmic navigation to keep vertical stack */
+    .cosmic-navigation {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-sm);
+        justify-content: flex-start;
+        padding-top: var(--space-md);
+    }
+    
+    .planet {
+        width: 50px;
+        height: 50px;
+        margin: 10px 0;
+    }
+    
+    .planet-label {
+        bottom: -20px;
+        font-size: 11px;
+        letter-spacing: 0.5px;
+    }
+    
+    .planet-label::before, 
+    .planet-label::after {
+        width: 30%;
+    }
+    
+    .little-prince {
+        width: 12px;
+        height: 24px;
+        top: -16px;
+    }
+    
+    h1 {
+        font-size: var(--text-2xl);
+    }
+    
+    h2 {
+        font-size: var(--text-lg);
+    }
+    
+    .read-more {
+        padding: 8px 12px;
+        display: inline-flex;
+        align-items: center;
+    }
+    
+    #brutalist-cursor {
+        display: none;
+    }
+}
+
+/* Blog content specific improvements for mobile */
+@media (max-width: 768px) {
+    /* Improve content width and spacing */
+    .planet-content h1, 
+    .planet-content h2, 
+    .planet-content h3, 
+    .planet-content p, 
+    .planet-content ul, 
+    .planet-content ol {
+        max-width: 100%;
+    }
+    
+    /* Blog post specific styling */
+    article p {
+        margin-bottom: 0.75rem;
+    }
+    
+    article h2 {
+        margin-top: 1.5rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    /* More compact line height for better content density */
+    .planet-content p {
+        line-height: 1.4;
+    }
+    
+    /* Reduce space around block elements */
+    .planet-content ul,
+    .planet-content ol {
+        padding-left: 1.2rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    /* Make images responsive */
+    .planet-content img {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+/* All planet-specific footer styles have been removed */ 

@@ -3,49 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Max Post | Home</title>
+    <title>Maximillian Post | Developer & Creator</title>
+    <meta name="description" content="Personal website of Maximillian Post.">
     <link rel="stylesheet" href="styles.css">
+    <script src="scripts.js" defer></script>
 </head>
 <body>
-    <!-- Abstract Shapes -->
-    <div class="abstract-shape shape-1"></div>
-    <div class="abstract-shape shape-2"></div>
-    <div class="abstract-shape shape-3"></div>
-
     <header>
         <h1>Max Post</h1>
-        <button class="menu-toggle" aria-label="Toggle menu">
-            <span class="menu-line"></span>
-            <span class="menu-line"></span>
-            <span class="menu-line"></span>
-        </button>
-        <nav class="nav-menu">
-            <a href="index.html">HOME</a>
-            <a href="blog/index.html">BLOG</a>
-            <a href="https://github.com/maxcpost" target="_blank">CODE</a>
-            <a href="https://www.linkedin.com/in/max-c-post" target="_blank">LINKEDIN</a>
-        </nav>
     </header>
-
+    
+    <nav class="cosmic-navigation">
+        <div class="planet home-planet" data-name="Home">
+            <a href="index.html">Home</a>
+        </div>
+        <div class="planet blog-planet" data-name="Blog">
+            <a href="blog/index.html">Blog</a>
+        </div>
+        <div class="planet code-planet" data-name="Code">
+            <a href="https://github.com/maximillianpost" target="_blank" rel="noopener">Code</a>
+        </div>
+        <div class="planet linkedin-planet" data-name="LinkedIn">
+            <a href="https://linkedin.com/in/maximillian-post" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+    </nav>
+    
     <main>
-        <section class="intro">
-            <h2>About Me</h2>
-            <p>My currentfocus is on the intersection of technology and masterplanned community development. More specifically I am currently focused on building Artificial Intelligence and data analytics algorithms to identify land that is optimal for developing into master planned communities. We are working on this development project in an effort to help alleviate the national housing crisis. I am currently a second year student at the Golisano Institute of Business and Entrepreneurship in Rochester NY, studying to become an expert generalist in business.</p>
-            
-            <p><strong>My Massive Transformative Purpose:</strong> To redefine housing affordability through innovative technologies and sustainable practices, providing a stable foundation for families to thrive.</p>
+        <section class="intro-planet">
+            <div class="planet-content">
+                <h2>About Me</h2>
+                <p>My current focus is on the intersection of advanced technology and masterplanned community development. More specifically I am working on developing Artificial Intelligence and data analytics algorithms to identify land that is optimal for developing into master planned communities. I am working on this development project in an effort to help alleviate the national(international) housing crisis. I am currently a second year student at the Golisano Institute of Business and Entrepreneurship in Rochester NY, studying to become an expert generalist in business.</p>
+                <br>
+                <p><b>My Massive Transformative Purpose:</b> To redefine housing affordability through innovative technologies and sustainable practices, providing a stable foundation for families to thrive.</p>
+                <br>
+                <p>To learn more about my thoughts and explorations, visit the <a href="blog/index.html">Blog</a> planet, or check out my code repositories on the <a href="https://github.com/maximillianpost" target="_blank" rel="noopener">Code</a> planet.</p>
+            </div>
         </section>
     </main>
-
+    
     <footer>
-        <p>© 2024 Maximillian Post</p>
+        <p>Working with friends to push humanity onward and upward.</p>
+        <!-- Footer quote will be added by JavaScript -->
+        <div class="stars-above"></div>
     </footer>
-
-    <script>
-        document.querySelector('.menu-toggle').addEventListener('click', function() {
-            this.classList.toggle('active');
-            document.querySelector('.nav-menu').classList.toggle('active');
-        });
-    </script>
-    <script src="scripts.js"></script>
+    
+    <!-- No scroll to top button needed - it will be added by JavaScript -->
 </body>
 </html> 

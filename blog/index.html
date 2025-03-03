@@ -3,39 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog | Max Post</title>
+    <title>Blog | Maximillian Post</title>
+    <meta name="description" content="Explorations and thoughts from Maximillian Post.">
     <link rel="stylesheet" href="../styles.css">
+    <script src="../scripts.js" defer></script>
 </head>
 <body>
-    <!-- Abstract Shapes -->
-    <div class="abstract-shape shape-1"></div>
-    <div class="abstract-shape shape-2"></div>
-    <div class="abstract-shape shape-3"></div>
-
     <header>
         <h1>Max Post</h1>
-        <button class="menu-toggle" aria-label="Toggle menu">
-            <span class="menu-line"></span>
-            <span class="menu-line"></span>
-            <span class="menu-line"></span>
-        </button>
-        <nav class="nav-menu">
-            <a href="../index.html">HOME</a>
-            <a href="index.html">BLOG</a>
-            <a href="https://github.com/maxcpost" target="_blank">CODE</a>
-            <a href="https://linkedin.com/in/max-c-post" target="_blank">LINKEDIN</a>
-        </nav>
     </header>
-
+    
+    <nav class="cosmic-navigation">
+        <div class="planet home-planet" data-name="Home">
+            <a href="../index.html">Home</a>
+        </div>
+        <div class="planet blog-planet" data-name="Blog">
+            <a href="index.html">Blog</a>
+        </div>
+        <div class="planet code-planet" data-name="Code">
+            <a href="https://github.com/maximillianpost" target="_blank" rel="noopener">Code</a>
+        </div>
+        <div class="planet linkedin-planet" data-name="LinkedIn">
+            <a href="https://linkedin.com/in/maximillian-post" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+    </nav>
+    
     <main>
-        <section>
-            <h2>Blog Posts</h2>
+        <section class="intro-planet">
+            <div class="planet-content">
+                <h2>Blog</h2>
+                <p>Welcome to my collection of written explorations. These posts represent my journey through different ideas and technologies.</p>
+            </div>
+        </section>
+        
+        <section class="post-section">
             <div class="post-list">
                 <article class="post-item">
                     <a href="agents-and-humanity.html" class="post-item-link">
                         <h2>Agents and Humanity</h2>
-                        <div class="post-date">March 1, 2024</div>
-                        <p>Exploring the evolving relationship between AI agents and humanity as we navigate the future of collaboration between human intelligence and artificial systems.</p>
+                        <div class="post-date">March 1, 2025</div>
+                        <p>Exploring the evolving relationship between AI agents and humanity, with reflections on their impact on our daily lives.</p>
                     </a>
                     <a href="agents-and-humanity.html" class="read-more">Read More</a>
                 </article>
@@ -43,27 +50,21 @@
                 <article class="post-item">
                     <a href="ai-building-communities.html" class="post-item-link">
                         <h2>AI Building Communities</h2>
-                        <div class="post-date">February 20, 2024</div>
-                        <p>We are creating systems that provide real value that can be used to exponentially increase our ability to develop master planned communities.</p>
+                        <div class="post-date">February 21, 2025</div>
+                        <p>How artificial intelligence is helping to identify optimal land for master planned communities.</p>
                     </a>
                     <a href="ai-building-communities.html" class="read-more">Read More</a>
                 </article>
             </div>
         </section>
     </main>
-
-    <footer>
-        <p>© 2024 Max Post</p>
-    </footer>
-
-    <script>
-        document.querySelector('.menu-toggle').addEventListener('click', function() {
-            this.classList.toggle('active');
-            document.querySelector('.nav-menu').classList.toggle('active');
-        });
-    </script>
     
-    <!-- Add reference to main scripts.js file -->
-    <script src="../scripts.js"></script>
+    <footer>
+        <p>Working with friends to push humanity onward and upward.</p>
+        <!-- Footer quote will be added by JavaScript -->
+        <div class="stars-above"></div>
+    </footer>
+    
+    <!-- No scroll to top button needed - it will be added by JavaScript -->
 </body>
 </html> 

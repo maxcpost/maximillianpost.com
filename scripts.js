@@ -1,432 +1,872 @@
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('🌟 The Little Prince site is initializing...');
+    
     // Initialize all components
-    initScrollToTop();
-    initToastSystem();
-    initAnimations();
-    enhanceInteractivity();
+    initStarryBackground();
     initCustomCursor();
-    initBlogPostItems();
+    initCosmicNavigation();
+    
+    // Additional check to ensure Little Prince is on the right planet
+    setTimeout(() => {
+        const currentPath = window.location.pathname;
+        if (currentPath.includes('blog')) {
+            ensureLittlePrinceOnBlogPlanet();
+        }
+    }, 500);
+    
+    // Check if we need to show a welcome message on mobile
+    if (isTouchDevice() && localStorage.getItem('firstVisit') !== 'false') {
+        setTimeout(() => {
+            showToast('Welcome! Tap on planets to explore', 'info', 5000);
+            localStorage.setItem('firstVisit', 'false');
+        }, 2000);
+    }
+    
+    // Add a way to detect screen orientation changes
+    window.addEventListener('orientationchange', function() {
+        // Redraw and reposition elements if needed
+        setTimeout(() => {
+            // Show a notification about the orientation change
+            if (window.orientation === 0 || window.orientation === 180) {
+                // Portrait mode
+                showToast('Portrait mode activated', 'info', 2000);
+            } else {
+                // Landscape mode
+                showToast('Landscape mode activated', 'info', 2000);
+            }
+        }, 300);
+    });
+    
+    // Add a handler for reduced motion preference
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    prefersReducedMotion.addEventListener('change', () => {
+        // Refresh the page to apply the new animation settings
+        window.location.reload();
+    });
+    
+    // Initialize scroll to top button
+    initScrollToTop();
+    
+    // Initialize blog post items if we're on that page
+    if (document.querySelector('.post-list')) {
+        initBlogPostItems();
+    }
+    
+    // Add Little Prince quotes
+    addRandomPrinceQuote();
+    
+    console.log('🌟 Initialization complete');
 });
 
 /**
  * Scroll-to-Top Button
  */
 function initScrollToTop() {
-    // Create scroll-to-top button if it doesn't exist
-    if (!document.querySelector('.scroll-top')) {
-        const scrollBtn = document.createElement('button');
-        scrollBtn.className = 'scroll-top';
-        scrollBtn.setAttribute('aria-label', 'Scroll to top');
-        scrollBtn.innerHTML = `
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-                <path d="M12 10.8289L16.2505 15.0794L17.6647 13.6652L12 8.00053L6.33533 13.6652L7.74954 15.0794L12 10.8289Z" />
-            </svg>
-        `;
-        document.body.appendChild(scrollBtn);
-    }
+    const scrollBtn = document.querySelector('.scroll-to-top');
+    if (!scrollBtn) return;
 
-    const scrollToTopBtn = document.querySelector('.scroll-top');
-    
-    // Show button when scrolled down
-    window.addEventListener('scroll', function() {
-        if (window.scrollY > 300) {
-            scrollToTopBtn.classList.add('visible');
+    // Show button when page is scrolled down
+    window.addEventListener('scroll', () => {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            scrollBtn.classList.add('active');
         } else {
-            scrollToTopBtn.classList.remove('visible');
+            scrollBtn.classList.remove('active');
         }
     });
-    
-    // Scroll to top on click with smooth animation
-    scrollToTopBtn.addEventListener('click', function() {
+
+    // Scroll to top when button is clicked
+    scrollBtn.addEventListener('click', () => {
         window.scrollTo({
             top: 0,
             behavior: 'smooth'
         });
+        
+        // Show a toast notification
+        showToast('Back to the stars!', 'info', 2000);
     });
 }
 
 /**
- * Toast Notification System
+ * Initialize cosmic navigation (planet-based nav)
  */
-function initToastSystem() {
+function initCosmicNavigation() {
+    console.log('Initializing cosmic navigation with Little Prince');
+    
+    // Debug check for cosmic navigation
+    const navContainer = document.querySelector('.cosmic-navigation');
+    if (!navContainer) {
+        console.error('Navigation container not found!');
+        return;
+    } else {
+        console.log('Found navigation container:', navContainer);
+    }
+    
+    // Set active page
+    const currentPath = window.location.pathname;
+    const planets = document.querySelectorAll('.planet');
+    
+    // Create SVG for planet paths
+    if (navContainer) {
+        const pathSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        pathSvg.classList.add('planet-path');
+        pathSvg.setAttribute('width', '100%');
+        pathSvg.setAttribute('height', '100%');
+        navContainer.appendChild(pathSvg);
+    }
+    
+    // Wrap each planet in a planet-link divs for mobile styling
+    wrapPlanetsForMobile();
+    
+    // Add Little Prince figure and planet labels
+    planets.forEach(planet => {
+        // Add the Little Prince figure to each planet
+        const prince = document.createElement('div');
+        prince.className = 'little-prince';
+        planet.appendChild(prince);
+        
+        // Create planet label
+        const planetName = planet.getAttribute('data-name');
+        const label = document.createElement('div');
+        label.className = 'planet-label';
+        label.textContent = planetName;
+        planet.appendChild(label);
+        
+        // Add hover event to create path - for desktop
+        planet.addEventListener('mouseenter', function() {
+            // Restore drawing the path, but without animation (animation was removed earlier)
+            if (!isTouchDevice() && !planet.classList.contains('active')) {
+                drawPathToActivePlanet(planet);
+            }
+        });
+        
+        planet.addEventListener('mouseleave', function() {
+            if (!isTouchDevice()) {
+                // Restore clearing paths
+                clearPaths();
+                
+                // This can stay as it ensures the Little Prince is hidden when not on active planet
+                if (!this.classList.contains('active')) {
+                    const prince = this.querySelector('.little-prince');
+                    if (prince) {
+                        prince.style.opacity = '0';
+                    }
+                }
+            }
+        });
+        
+        // Add touch events for mobile devices
+        planet.addEventListener('touchstart', function(e) {
+            // Prevent default to avoid both touch and click events firing
+            e.preventDefault();
+            
+            // Restore clearing paths
+            clearPaths();
+            
+            // Don't draw path if this is the active planet
+            if (!planet.classList.contains('active')) {
+                // Restore drawing the path
+                drawPathToActivePlanet(planet);
+                
+                // Restore timeout to clear paths
+                setTimeout(() => {
+                    clearPaths();
+                }, 1500);
+            }
+        });
+    });
+    
+    // After initial setup, adjust Little Prince positions for better visual appearance
+    setTimeout(() => {
+        // First hide all princes
+        const allPrinces = document.querySelectorAll('.cosmic-navigation .little-prince');
+        allPrinces.forEach(prince => {
+            prince.style.opacity = '0';
+        });
+        
+        // Only show Little Prince on the active planet, not on all planets in sequence
+        const activePlanet = document.querySelector('.cosmic-navigation .planet.active');
+        if (activePlanet) {
+            const prince = activePlanet.querySelector('.little-prince');
+            if (prince) {
+                prince.style.opacity = '1';
+            }
+            
+            // Add active class to parent planet-link for indicator
+            const parentLink = activePlanet.closest('.planet-link');
+            if (parentLink) {
+                parentLink.classList.add('planet-link-active');
+            }
+        }
+    }, 100);
+    
+    // Set active planet
+    if (currentPath === '/' || currentPath.includes('index.html')) {
+        const homePlanet = document.querySelector('.home-planet');
+        if (homePlanet) {
+            homePlanet.classList.add('active');
+            const parentLink = homePlanet.closest('.planet-link');
+            if (parentLink) {
+                parentLink.classList.add('planet-link-active');
+            }
+        }
+    }
+    else if (currentPath.includes('blog')) {
+        const blogPlanet = document.querySelector('.blog-planet');
+        if (blogPlanet) {
+            blogPlanet.classList.add('active');
+            const parentLink = blogPlanet.closest('.planet-link');
+            if (parentLink) {
+                parentLink.classList.add('planet-link-active');
+            }
+        }
+    }
+    else if (currentPath.includes('code')) {
+        const codePlanet = document.querySelector('.code-planet');
+        if (codePlanet) {
+            codePlanet.classList.add('active');
+            const parentLink = codePlanet.closest('.planet-link');
+            if (parentLink) {
+                parentLink.classList.add('planet-link-active');
+            }
+        }
+    }
+    else if (currentPath.includes('linkedin')) {
+        const linkedinPlanet = document.querySelector('.linkedin-planet');
+        if (linkedinPlanet) {
+            linkedinPlanet.classList.add('active');
+            const parentLink = linkedinPlanet.closest('.planet-link');
+            if (parentLink) {
+                parentLink.classList.add('planet-link-active');
+            }
+        }
+    }
+    
+    // Setup Mobile Menu Toggle
+    setupMobileMenu();
+}
+
+/**
+ * Wrap planets in container divs for mobile styling
+ */
+function wrapPlanetsForMobile() {
+    const navContainer = document.querySelector('.cosmic-navigation');
+    if (!navContainer) return;
+    
+    const planets = navContainer.querySelectorAll('.planet');
+    
+    planets.forEach(planet => {
+        // Skip if already wrapped
+        if (planet.parentElement.classList.contains('planet-link')) return;
+        
+        // Create wrapper element
+        const wrapper = document.createElement('div');
+        wrapper.className = 'planet-link';
+        
+        // Insert wrapper before planet
+        planet.parentNode.insertBefore(wrapper, planet);
+        
+        // Move planet into wrapper
+        wrapper.appendChild(planet);
+    });
+}
+
+/**
+ * Setup mobile menu functionality
+ */
+function setupMobileMenu() {
+    // Check if we already have a menu toggle
+    let menuToggle = document.querySelector('.menu-toggle');
+    
+    // If not, create one
+    if (!menuToggle) {
+        menuToggle = document.createElement('button');
+        menuToggle.className = 'menu-toggle';
+        menuToggle.setAttribute('aria-label', 'Toggle navigation menu');
+        menuToggle.setAttribute('aria-expanded', 'false');
+        
+        // Create the hamburger icon
+        for (let i = 0; i < 3; i++) {
+            const line = document.createElement('span');
+            line.className = 'menu-line';
+            menuToggle.appendChild(line);
+        }
+        
+        document.body.appendChild(menuToggle);
+    }
+    
+    // Create a backdrop for the mobile menu
+    let menuBackdrop = document.querySelector('.menu-backdrop');
+    if (!menuBackdrop) {
+        menuBackdrop = document.createElement('div');
+        menuBackdrop.className = 'menu-backdrop';
+        document.body.appendChild(menuBackdrop);
+    }
+    
+    // Get the cosmic navigation
+    const cosmicNavigation = document.querySelector('.cosmic-navigation');
+    
+    // If cosmicNavigation doesn't exist, stop here
+    if (!cosmicNavigation) {
+        console.error('Cosmic navigation element not found!');
+        return;
+    }
+    
+    // Function to open the menu
+    function openMenu() {
+        menuToggle.classList.add('active');
+        cosmicNavigation.classList.add('active');
+        menuBackdrop.classList.add('active');
+        menuToggle.setAttribute('aria-expanded', 'true');
+        document.body.style.overflow = 'hidden';
+        
+        // Show a helpful toast on first open
+        if (!localStorage.getItem('menuShown')) {
+            setTimeout(() => {
+                showToast('Tap a planet to navigate', 'info', 2500);
+                localStorage.setItem('menuShown', 'true');
+            }, 300);
+        }
+        
+        // Make sure Little Prince is visible on the active planet
+        setTimeout(() => {
+            // First hide all princes
+            const allPrinces = document.querySelectorAll('.cosmic-navigation .little-prince');
+            allPrinces.forEach(prince => {
+                prince.style.opacity = '0';
+            });
+            
+            // Only show Little Prince on the active planet, not on all planets in sequence
+            const activePlanet = document.querySelector('.cosmic-navigation .planet.active');
+            if (activePlanet) {
+                const prince = activePlanet.querySelector('.little-prince');
+                if (prince) {
+                    prince.style.opacity = '1';
+                }
+            }
+        }, 300);
+    }
+    
+    // Function to close the menu
+    function closeMenu() {
+        menuToggle.classList.remove('active');
+        cosmicNavigation.classList.remove('active');
+        menuBackdrop.classList.remove('active');
+        menuToggle.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+    }
+    
+    // Toggle menu when button is clicked
+    menuToggle.addEventListener('click', function(e) {
+        e.preventDefault(); // Prevent default button behavior
+        console.log('Menu button clicked!');  // Debug log
+        if (menuToggle.classList.contains('active')) {
+            closeMenu();
+        } else {
+            openMenu();
+        }
+    });
+    
+    // Close menu when backdrop is clicked
+    menuBackdrop.addEventListener('click', closeMenu);
+    
+    // Close menu when the X in the corner is clicked (cosmicNavigation::before)
+    cosmicNavigation.addEventListener('click', function(e) {
+        // Get the position of the click
+        const rect = cosmicNavigation.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        // Check if click is in the top-right corner (close button area)
+        if (x > rect.width - 50 && y < 50) {
+            closeMenu();
+        }
+    });
+    
+    // Close menu when a planet is clicked
+    const planets = document.querySelectorAll('.planet a');
+    planets.forEach(planetLink => {
+        planetLink.addEventListener('click', function(e) {
+            // Get the planet element (parent of the link)
+            const planet = this.parentElement;
+            const targetHref = this.getAttribute('href');
+            
+            // Prevent default navigation
+            e.preventDefault();
+            
+            // First remove active class from current planet
+            const currentActive = document.querySelector('.planet.active');
+            if (currentActive) {
+                currentActive.classList.remove('active');
+                // Also remove active class from parent planet-link
+                const parentLink = currentActive.closest('.planet-link');
+                if (parentLink) {
+                    parentLink.classList.remove('planet-link-active');
+                }
+            }
+            
+            // Add active class to clicked planet
+            planet.classList.add('active');
+            
+            // Add active class to parent planet-link
+            const newParentLink = planet.closest('.planet-link');
+            if (newParentLink) {
+                newParentLink.classList.add('planet-link-active');
+            }
+            
+            // Show the Little Prince on this planet
+            const prince = planet.querySelector('.little-prince');
+            if (prince) {
+                // Hide all other princes first
+                const allPrinces = document.querySelectorAll('.little-prince');
+                allPrinces.forEach(p => {
+                    p.style.opacity = '0';
+                });
+                
+                // Show this prince
+                prince.style.opacity = '1';
+            }
+            
+            // Only close if it's a mobile view
+            if (window.innerWidth <= 768) {
+                closeMenu();
+            }
+            
+            // Navigate after a short delay to show the animation
+            setTimeout(() => {
+                window.location.href = targetHref;
+            }, 400);
+        });
+    });
+    
+    // Close menu on window resize if it gets to desktop size
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 768 && cosmicNavigation.classList.contains('active')) {
+            closeMenu();
+        }
+    });
+    
+    // Close menu on escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && cosmicNavigation.classList.contains('active')) {
+            closeMenu();
+        }
+    });
+    
+    // Show menu button only on mobile
+    function toggleMenuVisibility() {
+        if (window.innerWidth <= 768) {
+            menuToggle.style.display = 'flex';
+        } else {
+            menuToggle.style.display = 'none';
+        }
+    }
+    
+    // Initial visibility check
+    toggleMenuVisibility();
+    
+    // Check visibility on resize
+    window.addEventListener('resize', toggleMenuVisibility);
+    
+    // Add hover/touch effects for planets in mobile menu
+    if (window.innerWidth <= 768) {
+        const mobileMenuPlanets = document.querySelectorAll('.cosmic-navigation .planet');
+        mobileMenuPlanets.forEach(planet => {
+            // Add touch event for mobile
+            planet.addEventListener('touchstart', function(e) {
+                // Don't prevent default here to allow navigation
+            });
+        });
+    }
+}
+
+/**
+ * Draw a dotted path from hover planet to active planet
+ */
+function drawPathToActivePlanet(fromPlanet) {
+    const activePlanet = document.querySelector('.planet.active');
+    if (!activePlanet || fromPlanet === activePlanet) return;
+    
+    clearPaths();
+    
+    const svgContainer = document.querySelector('.planet-path');
+    if (!svgContainer) return;
+    
+    // Get positions
+    const fromRect = fromPlanet.getBoundingClientRect();
+    const toRect = activePlanet.getBoundingClientRect();
+    const containerRect = svgContainer.getBoundingClientRect();
+    
+    // Calculate start and end positions relative to SVG container
+    const startX = fromRect.left - containerRect.left + fromRect.width/2;
+    const startY = fromRect.top - containerRect.top + fromRect.height/2;
+    const endX = toRect.left - containerRect.left + toRect.width/2;
+    const endY = toRect.top - containerRect.top + toRect.height/2;
+    
+    // Create a curved path with random control points
+    const midX = startX + (endX - startX) / 2;
+    const midY = startY + (endY - startY) / 2;
+    
+    // Add some randomness to make paths different each time
+    const randomOffsetX = (Math.random() - 0.5) * 100;
+    const randomOffsetY = (Math.random() - 0.5) * 100;
+    
+    const controlX = midX + randomOffsetX;
+    const controlY = midY + randomOffsetY;
+    
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', `M ${startX} ${startY} Q ${controlX} ${controlY} ${endX} ${endY}`);
+    path.setAttribute('fill', 'none');
+    path.setAttribute('stroke', 'var(--gold)');
+    path.setAttribute('stroke-width', '2');
+    path.setAttribute('stroke-dasharray', '5,5');
+    path.setAttribute('opacity', '0.7');
+    
+    // Add the path to the SVG
+    svgContainer.appendChild(path);
+    
+    // Add stars along the path
+    addStarsAlongPath(svgContainer, startX, startY, endX, endY);
+}
+
+/**
+ * Add small stars along the path between planets
+ */
+function addStarsAlongPath(svgContainer, startX, startY, endX, endY) {
+    const numStars = 3 + Math.floor(Math.random() * 3); // 3-5 stars
+    
+    for (let i = 0; i < numStars; i++) {
+        const ratio = (i + 1) / (numStars + 1);
+        const starX = startX + (endX - startX) * ratio;
+        const starY = startY + (endY - startY) * ratio;
+        
+        // Add some random offset
+        const offsetX = (Math.random() - 0.5) * 20;
+        const offsetY = (Math.random() - 0.5) * 20;
+        
+        const star = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        star.setAttribute('cx', starX + offsetX);
+        star.setAttribute('cy', starY + offsetY);
+        star.setAttribute('r', 2 + Math.random() * 2);
+        star.setAttribute('fill', 'var(--gold)');
+        star.setAttribute('class', 'path-star');
+        star.setAttribute('opacity', '0.7'); // Set a static opacity instead of animating
+        
+        svgContainer.appendChild(star);
+        
+        // Remove twinkle animation to prevent blinking effect
+    }
+}
+
+/**
+ * Clear all path elements
+ */
+function clearPaths() {
+    const svgContainer = document.querySelector('.planet-path');
+    if (svgContainer) {
+        svgContainer.innerHTML = '';
+    }
+}
+
+/**
+ * Initialize custom cursor
+ */
+function initCustomCursor() {
+    // Only initialize custom cursor on non-touch devices
+    if (!isTouchDevice()) {
+        const cursor = document.createElement('div');
+        cursor.id = 'brutalist-cursor';
+        document.body.appendChild(cursor);
+        
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+        
+        document.addEventListener('mousedown', () => {
+            cursor.classList.add('click');
+        });
+        
+        document.addEventListener('mouseup', () => {
+            cursor.classList.remove('click');
+        });
+        
+        // Add hover effect when over links
+        document.querySelectorAll('a, button, .planet, .read-more').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursor.classList.add('hover');
+            });
+            
+            el.addEventListener('mouseleave', () => {
+                cursor.classList.remove('hover');
+            });
+        });
+    }
+}
+
+/**
+ * Create the starry background effect
+ */
+function initStarryBackground() {
+    // Check if we should reduce stars for performance
+    const isMobile = window.innerWidth < 768 || isTouchDevice();
+    const preferReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    
+    // Adjust star count based on device and user preferences
+    const starCount = isMobile ? 30 : 100;
+    const shootingStarCount = (isMobile || preferReducedMotion) ? 0 : 5;
+    const twinkleStarPercentage = preferReducedMotion ? 0.2 : 0.6; // Percentage of stars that twinkle
+    
+    // Create the stars
+    for (let i = 0; i < starCount; i++) {
+        createStar(i >= starCount * (1 - twinkleStarPercentage));
+    }
+    
+    // Create shooting stars on a timer for better performance
+    if (shootingStarCount > 0 && !isMobile && !preferReducedMotion) {
+        const createShootingStar = () => {
+            const star = document.createElement('div');
+            star.className = 'star shooting';
+            
+            // Random position and angle
+            const startX = Math.random() * window.innerWidth;
+            const startY = Math.random() * (window.innerHeight / 3); // Only from top third
+            
+            star.style.left = startX + 'px';
+            star.style.top = startY + 'px';
+            
+            document.body.appendChild(star);
+            
+            // Remove after animation completes
+            setTimeout(() => {
+                star.remove();
+            }, 5000);
+        };
+        
+        // Create a shooting star every few seconds
+        setInterval(createShootingStar, 8000);
+    }
+}
+
+// Helper functions
+
+function createStar(shouldTwinkle) {
+    const star = document.createElement('div');
+    star.className = 'star';
+    if (shouldTwinkle) {
+        star.classList.add('twinkle');
+    }
+    
+    // Random size, position, and delay for twinkle animation
+    const size = Math.random() * 2 + 1;
+    const posX = Math.random() * window.innerWidth;
+    const posY = Math.random() * window.innerHeight;
+    
+    star.style.width = size + 'px';
+    star.style.height = size + 'px';
+    star.style.left = posX + 'px';
+    star.style.top = posY + 'px';
+    
+    if (shouldTwinkle) {
+        star.style.animationDelay = Math.random() * 4 + 's';
+    }
+    
+    document.body.appendChild(star);
+}
+
+/**
+ * Initialize blog post items
+ */
+function initBlogPostItems() {
+    const postItems = document.querySelectorAll('.post-item');
+    
+    // Make sure the Little Prince is visible on the blog planet when on blog pages
+    ensureLittlePrinceOnBlogPlanet();
+    
+    postItems.forEach(post => {
+        post.addEventListener('click', function(e) {
+            // If they clicked specifically on a link, let the link handle it
+            if (e.target.tagName === 'A') return;
+            
+            // Otherwise, find the first link and follow it
+            const link = this.querySelector('a');
+            if (link) {
+                // For touch devices, just follow the link
+                if (isTouchDevice()) {
+                    window.location.href = link.href;
+                } else {
+                    // For non-touch, animate and then follow
+                    this.classList.add('clicked');
+                    setTimeout(() => {
+                        window.location.href = link.href;
+                    }, 300);
+                }
+            }
+        });
+        
+        // Add hover effect for non-touch devices
+        if (!isTouchDevice()) {
+            post.addEventListener('mouseenter', function() {
+                this.classList.add('hover');
+            });
+            
+            post.addEventListener('mouseleave', function() {
+                this.classList.remove('hover');
+            });
+        }
+    });
+}
+
+/**
+ * Ensures the Little Prince is visible on the blog planet when on blog pages
+ */
+function ensureLittlePrinceOnBlogPlanet() {
+    // Check if we're on a blog page
+    const currentPath = window.location.pathname;
+    
+    if (currentPath.includes('blog')) {
+        console.log('Blog page detected - ensuring Little Prince is on blog planet');
+        
+        // First hide all little princes
+        const allPrinces = document.querySelectorAll('.little-prince');
+        allPrinces.forEach(prince => {
+            prince.style.opacity = '0';
+        });
+        
+        // Find the blog planet and make it active
+        const blogPlanet = document.querySelector('.blog-planet');
+        if (blogPlanet) {
+            // Remove active class from all planets
+            const allPlanets = document.querySelectorAll('.planet');
+            allPlanets.forEach(planet => {
+                planet.classList.remove('active');
+            });
+            
+            // Remove active class from all planet links
+            const allPlanetLinks = document.querySelectorAll('.planet-link');
+            allPlanetLinks.forEach(link => {
+                link.classList.remove('planet-link-active');
+            });
+            
+            // Make blog planet active
+            blogPlanet.classList.add('active');
+            
+            // Show the Little Prince on the blog planet
+            const prince = blogPlanet.querySelector('.little-prince');
+            if (prince) {
+                prince.style.opacity = '1';
+            }
+            
+            // Add active class to parent planet-link for indicator
+            const parentLink = blogPlanet.closest('.planet-link');
+            if (parentLink) {
+                parentLink.classList.add('planet-link-active');
+            }
+            
+            console.log('Little Prince is now visible on blog planet');
+        }
+    }
+}
+
+/**
+ * Add a random Little Prince quote to the page
+ */
+function addRandomPrinceQuote() {
+    const quoteContainer = document.querySelector('.quote-container');
+    if (!quoteContainer) return;
+    
+    const quotes = [
+        "All grown-ups were once children... but only few of them remember it.",
+        "It is only with the heart that one can see rightly; what is essential is invisible to the eye.",
+        "You become responsible, forever, for what you have tamed.",
+        "The most beautiful things in the world cannot be seen or touched, they are felt with the heart.",
+        "It is such a mysterious place, the land of tears.",
+        "What makes the desert beautiful is that somewhere it hides a well.",
+        "One sees clearly only with the heart. Anything essential is invisible to the eyes."
+    ];
+    
+    // Get a random quote
+    const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+    
+    // Create quote element
+    const quoteElement = document.createElement('blockquote');
+    quoteElement.className = 'prince-quote';
+    quoteElement.textContent = randomQuote;
+    
+    // Add attribution
+    const attribution = document.createElement('footer');
+    attribution.className = 'quote-attribution';
+    attribution.textContent = '— The Little Prince';
+    quoteElement.appendChild(attribution);
+    
+    // Add to container
+    quoteContainer.appendChild(quoteElement);
+    
+    // Animate in
+    setTimeout(() => {
+        quoteElement.classList.add('visible');
+    }, 500);
+}
+
+/**
+ * Show a toast notification
+ * @param {string} message - The message to display
+ * @param {string} type - The type of notification (success, error, info)
+ * @param {number} duration - How long to show the notification in ms
+ */
+function showToast(message, type = 'info', duration = 3000) {
     // Create toast container if it doesn't exist
-    if (!document.querySelector('.toast-container')) {
-        const toastContainer = document.createElement('div');
+    let toastContainer = document.querySelector('.toast-container');
+    if (!toastContainer) {
+        toastContainer = document.createElement('div');
         toastContainer.className = 'toast-container';
         document.body.appendChild(toastContainer);
     }
-}
-
-/**
- * Show toast notification
- * @param {string} title - Toast title
- * @param {string} message - Toast message
- * @param {string} type - Toast type (success, error, info)
- */
-function showToast(title, message, type = 'info') {
-    const container = document.querySelector('.toast-container');
     
     // Create toast element
     const toast = document.createElement('div');
-    toast.className = `toast ${type}`;
+    toast.className = `toast toast-${type}`;
+    toast.setAttribute('role', 'alert');
+    toast.setAttribute('aria-live', 'polite');
     
-    // Get icon based on type
-    let icon = '';
-    if (type === 'success') {
-        icon = '<span class="toast-icon">✅</span>';
-    } else if (type === 'error') {
-        icon = '<span class="toast-icon">❌</span>';
-    } else {
-        icon = '<span class="toast-icon">ℹ️</span>';
-    }
+    // Add message
+    toast.textContent = message;
     
-    // Set toast content
-    toast.innerHTML = `
-        ${icon}
-        <div class="toast-content">
-            <div class="toast-title">${title}</div>
-            <div class="toast-message">${message}</div>
-        </div>
-        <button class="toast-close" aria-label="Close notification">×</button>
-    `;
+    // Add close button
+    const closeBtn = document.createElement('button');
+    closeBtn.className = 'toast-close';
+    closeBtn.innerHTML = '&times;';
+    closeBtn.setAttribute('aria-label', 'Close notification');
+    closeBtn.addEventListener('click', () => {
+        toast.classList.add('toast-hiding');
+        setTimeout(() => toast.remove(), 300);
+    });
+    toast.appendChild(closeBtn);
     
     // Add to container
-    container.appendChild(toast);
+    toastContainer.appendChild(toast);
     
-    // Handle close button
-    toast.querySelector('.toast-close').addEventListener('click', function() {
-        toast.style.opacity = '0';
+    // Animate in
+    setTimeout(() => toast.classList.add('toast-visible'), 10);
+    
+    // Auto-remove after duration
+    if (duration > 0) {
         setTimeout(() => {
-            toast.remove();
-        }, 300);
-    });
+            if (document.body.contains(toast)) {
+                toast.classList.add('toast-hiding');
+                setTimeout(() => toast.remove(), 300);
+            }
+        }, duration);
+    }
     
-    // Auto-remove after timeout
-    setTimeout(() => {
-        toast.style.opacity = '0';
-        setTimeout(() => {
-            toast.remove();
-        }, 300);
-    }, 5000);
+    return toast;
 }
 
 /**
- * Enhance interactivity throughout the site
+ * Check if device supports touch events
+ * @returns {boolean} True if device supports touch
  */
-function enhanceInteractivity() {
-    // Add ripple effect to all buttons
-    const buttons = document.querySelectorAll('button, .button, .read-more');
-    buttons.forEach(button => {
-        button.addEventListener('click', function(e) {
-            const rect = button.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            
-            const ripple = document.createElement('span');
-            ripple.className = 'ripple';
-            ripple.style.left = `${x}px`;
-            ripple.style.top = `${y}px`;
-            
-            button.appendChild(ripple);
-            
-            setTimeout(() => {
-                ripple.remove();
-            }, 600);
-        });
-    });
-    
-    // Add skip link for accessibility if not already present
-    if (!document.querySelector('.skip-link')) {
-        const skipLink = document.createElement('a');
-        skipLink.className = 'skip-link';
-        skipLink.href = '#main-content';
-        skipLink.textContent = 'Skip to main content';
-        document.body.prepend(skipLink);
-    }
-    
-    // Mark the first content element with ID for skip link
-    const mainContent = document.querySelector('main') || document.querySelector('.content');
-    if (mainContent && !mainContent.id) {
-        mainContent.id = 'main-content';
-    }
-}
-
-/**
- * Initialize animations for page elements
- */
-function initAnimations() {
-    // Detect if reduced motion is preferred
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) {
-        return; // Don't add animations if reduced motion is preferred
-    }
-    
-    // Add intersection observer for fade-in animations
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animated');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, {
-        rootMargin: '0px',
-        threshold: 0.1
-    });
-    
-    // Add animation classes to elements
-    const sections = document.querySelectorAll('section, article, .card, .post-item');
-    sections.forEach((section, index) => {
-        section.classList.add('fade-in-element');
-        section.style.animationDelay = `${index * 0.1}s`;
-        observer.observe(section);
-    });
-    
-    // Add animation styles dynamically
-    if (!document.getElementById('animation-styles')) {
-        const style = document.createElement('style');
-        style.id = 'animation-styles';
-        style.textContent = `
-            @keyframes fadeIn {
-                from { opacity: 0; transform: translateY(20px); }
-                to { opacity: 1; transform: translateY(0); }
-            }
-            
-            .fade-in-element {
-                opacity: 0;
-            }
-            
-            .fade-in-element.animated {
-                animation: fadeIn 0.6s ease forwards;
-            }
-            
-            @keyframes ripple {
-                from { transform: scale(0); opacity: 1; }
-                to { transform: scale(4); opacity: 0; }
-            }
-            
-            .ripple {
-                position: absolute;
-                background-color: rgba(255, 255, 255, 0.4);
-                border-radius: 50%;
-                width: 100px;
-                height: 100px;
-                margin-top: -50px;
-                margin-left: -50px;
-                animation: ripple 0.6s linear forwards;
-                pointer-events: none;
-            }
-        `;
-        document.head.appendChild(style);
-    }
-}
-
-/**
- * Interactive Custom Cursor - BRUTALIST VERSION
- * This is implemented to work consistently across all pages
- */
-function initCustomCursor() {
-    console.log("Starting cursor initialization");
-    
-    // Check if cursor already exists on page to avoid duplicates
-    if (document.getElementById('brutalist-cursor')) {
-        console.log("Cursor already exists, skipping initialization");
-        return;
-    }
-    
-    // Remove any existing cursors to avoid duplicates
-    const existingCursors = document.querySelectorAll('.cursor-inner, .cursor-outer, #cursor-styles, #cursor-animation');
-    existingCursors.forEach(el => el.remove());
-    
-    // Create a simple square cursor - pure brutalist style
-    const cursor = document.createElement('div');
-    cursor.id = 'brutalist-cursor';
-    document.body.appendChild(cursor);
-    
-    console.log("Cursor element created");
-    
-    // Add cursor styles - include !important for higher specificity to override site-wide styles
-    const style = document.createElement('style');
-    style.id = 'brutalist-cursor-style';
-    style.textContent = `
-        * {
-            cursor: none !important;
-        }
-        
-        #brutalist-cursor {
-            position: fixed;
-            width: 20px;
-            height: 20px;
-            background-color: #00E5FF !important;
-            mix-blend-mode: exclusion;
-            pointer-events: none;
-            z-index: 999999 !important;
-            top: 0;
-            left: 0;
-            transform: translate(-50%, -50%);
-            border: 2px solid #FFFFFF !important;
-            box-shadow: 0 0 10px rgba(0,229,255,0.8), 0 0 20px rgba(0,229,255,0.5);
-        }
-        
-        /* State changes */
-        #brutalist-cursor.hover {
-            width: 40px !important;
-            height: 40px !important;
-            background-color: transparent !important;
-            border: 3px solid #00E5FF !important;
-            mix-blend-mode: normal;
-        }
-        
-        #brutalist-cursor.click {
-            transform: translate(-50%, -50%) scale(0.7);
-        }
-        
-        /* Hide on touch devices */
-        @media (hover: none) {
-            #brutalist-cursor {
-                display: none !important;
-            }
-            * {
-                cursor: auto !important;
-            }
-        }
-    `;
-    document.head.appendChild(style);
-    
-    console.log("Cursor styles added");
-    
-    // Position the cursor at the center initially
-    const cursorEl = document.getElementById('brutalist-cursor');
-    if (!cursorEl) {
-        console.error("Failed to find cursor element after creation!");
-        return;
-    }
-    
-    // Ensure initialization is complete
-    cursorEl.style.display = 'block';
-    
-    // Ultra simple positioning, no easing for reliability
-    document.addEventListener('mousemove', function(e) {
-        // Direct positioning, no calculations
-        cursorEl.style.left = e.clientX + 'px';
-        cursorEl.style.top = e.clientY + 'px';
-    });
-    
-    console.log("Mouse move event listener added");
-    
-    // Add hover effect to all interactive elements
-    const interactiveElements = document.querySelectorAll('a, button, .button, .read-more, input[type="submit"], [role="button"], select, input[type="checkbox"], input[type="radio"]');
-    interactiveElements.forEach(el => {
-        el.addEventListener('mouseenter', function() {
-            cursorEl.classList.add('hover');
-        });
-        
-        el.addEventListener('mouseleave', function() {
-            cursorEl.classList.remove('hover');
-        });
-    });
-    
-    // Add click effect
-    document.addEventListener('mousedown', function() {
-        cursorEl.classList.add('click');
-    });
-    
-    document.addEventListener('mouseup', function() {
-        cursorEl.classList.remove('click');
-    });
-    
-    // Add a small debug message to the page to indicate cursor is active
-    const debugMsg = document.createElement('div');
-    debugMsg.style.position = 'fixed';
-    debugMsg.style.top = '10px';
-    debugMsg.style.right = '10px';
-    debugMsg.style.background = 'rgba(0,0,0,0.7)';
-    debugMsg.style.color = '#00E5FF';
-    debugMsg.style.padding = '5px 10px';
-    debugMsg.style.fontSize = '12px';
-    debugMsg.style.fontFamily = 'monospace';
-    debugMsg.style.zIndex = '9999';
-    debugMsg.style.pointerEvents = 'none';
-    debugMsg.innerHTML = 'BRUTALIST CURSOR ACTIVE';
-    document.body.appendChild(debugMsg);
-    
-    // Remove debug message after 3 seconds
-    setTimeout(() => {
-        debugMsg.style.opacity = '0';
-        debugMsg.style.transition = 'opacity 0.5s';
-        setTimeout(() => {
-            debugMsg.remove();
-        }, 500);
-    }, 3000);
-    
-    // Force a cursor move event to show it immediately
-    document.dispatchEvent(new MouseEvent('mousemove', {
-        clientX: window.innerWidth / 2,
-        clientY: window.innerHeight / 2
-    }));
-    
-    // Reattach cursor effect after page transitions or AJAX loads
-    // This helps when sites use turbolinks or similar technologies
-    document.addEventListener('turbolinks:load', initCustomCursor);
-    document.addEventListener('page:load', initCustomCursor);
-    document.addEventListener('ajax:complete', initCustomCursor);
-    
-    console.log("Custom cursor completely initialized");
-    
-    // Store that cursor was initialized in sessionStorage
-    // so other pages can detect it was already loaded
-    try {
-        sessionStorage.setItem('cursorInitialized', 'true');
-    } catch (e) {
-        console.log("Unable to use sessionStorage");
-    }
-}
-
-// For sites with multiple pages, ensure cursor persists
-// This technique helps the cursor persist across all pages by running the cursor initialization
-// as soon as possible in case the site has multiple HTML files
-(function() {
-    // Only run this code in browsers (not SSR)
-    if (typeof window !== 'undefined' && typeof document !== 'undefined') {
-        // Initialize cursor immediately if possible
-        if (document.readyState !== 'loading') {
-            initCustomCursor();
-        } else {
-            // Otherwise wait for DOM to be ready
-            document.addEventListener('DOMContentLoaded', initCustomCursor);
-        }
-    }
-})();
-
-/**
- * Enhance blog post items to make them fully clickable
- */
-function initBlogPostItems() {
-    // Get all blog post items
-    const postItems = document.querySelectorAll('.post-item');
-    
-    postItems.forEach(item => {
-        // Get the main link inside the post item
-        const mainLink = item.querySelector('.post-item-link');
-        // Get the Read More button
-        const readMoreBtn = item.querySelector('.read-more');
-        
-        if (mainLink && readMoreBtn) {
-            // Prevent the Read More button from triggering the parent link
-            readMoreBtn.addEventListener('click', function(e) {
-                e.stopPropagation();
-            });
-            
-            // Add a click event to the entire post item
-            item.addEventListener('click', function(e) {
-                // Only trigger if the click wasn't on the Read More button or its children
-                if (!e.target.closest('.read-more')) {
-                    mainLink.click();
-                }
-            });
-            
-            // Make the post item look clickable
-            item.style.cursor = 'pointer';
-        }
-    });
+function isTouchDevice() {
+    return ('ontouchstart' in window) || 
+           (navigator.maxTouchPoints > 0) || 
+           (navigator.msMaxTouchPoints > 0);
 }
