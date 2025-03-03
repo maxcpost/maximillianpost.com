@@ -438,6 +438,44 @@ function setupMobileMenu() {
         });
     });
     
+    // Add touch events for mobile - to ensure taps work properly
+    const mobilePlanetLinks = document.querySelectorAll('.cosmic-navigation .planet-link');
+    mobilePlanetLinks.forEach(planetLinkDiv => {
+        const planetLink = planetLinkDiv.querySelector('.planet a');
+        if (!planetLink) return;
+        
+        // Add touch event to ensure mobile taps work
+        planetLinkDiv.addEventListener('touchend', function(e) {
+            // Prevent any parent handlers from being notified
+            e.stopPropagation();
+            
+            // Trigger a click on the actual link
+            if (planetLink) {
+                planetLink.click();
+            }
+        });
+    });
+    
+    // Add direct touch events to planets as well
+    const mobilePlanets = document.querySelectorAll('.cosmic-navigation .planet');
+    mobilePlanets.forEach(planet => {
+        const planetLink = planet.querySelector('a');
+        if (!planetLink) return;
+        
+        // Add touch event directly to the planet element
+        planet.addEventListener('touchend', function(e) {
+            // Stop propagation to prevent conflicts
+            e.stopPropagation();
+            
+            console.log('Planet touched directly');
+            
+            // Trigger a click on the link
+            if (planetLink) {
+                planetLink.click();
+            }
+        });
+    });
+    
     // Close menu on window resize if it gets to desktop size
     window.addEventListener('resize', function() {
         if (window.innerWidth > 768 && cosmicNavigation.classList.contains('active')) {
