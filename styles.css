@@ -195,7 +195,7 @@ strong, b {
     color: var(--sunset-yellow);
 }
 
-blockquote, .prince-quote {
+blockquote {
     font-family: 'Caveat', cursive;
     font-size: 1.4em;
     line-height: 1.4;
@@ -206,7 +206,7 @@ blockquote, .prince-quote {
     position: relative;
 }
 
-blockquote::before, .prince-quote::before {
+blockquote::before {
     content: '"';
     font-size: 3em;
     position: absolute;
@@ -237,14 +237,6 @@ header h1 {
     display: flex;
     align-items: center;
     justify-content: space-between;
-}
-
-.subtitle {
-    font-family: 'Caveat', cursive;
-    font-size: var(--text-md);
-    color: var(--sunset-yellow);
-    margin-left: var(--space-sm);
-    opacity: 0.8;
 }
 
 /* Cosmic Navigation */
@@ -494,7 +486,18 @@ header h1 {
     }
 }
 
-@media (max-width: 768px), (prefers-reduced-motion) {
+@media (prefers-reduced-motion: reduce) {
+    .star.twinkle {
+        animation-duration: 6s;
+    }
+
+    .star.shooting {
+        opacity: 0;
+        animation: none;
+    }
+}
+
+@media (max-width: 768px) {
     /* Reduce animations for better performance on mobile or when users prefer reduced motion */
     .star.twinkle {
         animation-duration: 6s; /* Slower twinkle */
@@ -510,44 +513,10 @@ header h1 {
     .star:nth-child(2n+1) {
         opacity: 0;
     }
-    
-    /* Make toast notifications more compact */
-    .toast {
-        min-width: 250px;
-        max-width: 100%;
-        padding: 10px;
-    }
+
     
     .menu-toggle {
         display: flex !important;
-    }
-    
-    .nav-menu {
-        position: fixed;
-        top: 0;
-        right: -100%;
-        width: 80%;
-        height: 100vh;
-        background: var(--dark-space);
-        display: flex;
-        flex-direction: column;
-        padding: 80px 20px 20px;
-        transition: right 0.3s ease;
-        z-index: 15;
-    }
-    
-    .nav-menu.active {
-        right: 0;
-    }
-    
-    .nav-menu a {
-        margin: 10px 0;
-        padding: 10px;
-        text-align: center;
-        min-height: 44px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
     }
     
     .cosmic-navigation {
@@ -596,7 +565,7 @@ header h1 {
         animation-duration: 180s;
     }
     
-    blockquote, .prince-quote {
+    blockquote {
         font-size: 1.2em;
         padding-left: var(--space-sm);
     }
@@ -625,12 +594,6 @@ header h1 {
     .post-item {
         padding: var(--space-sm);
         margin-bottom: var(--space-sm);
-    }
-    
-    .prince-quote {
-        font-size: 1.2rem;
-        padding: 15px 20px;
-        margin: var(--space-sm) 0;
     }
 }
 
@@ -673,9 +636,9 @@ header h1 {
     }
     
     main {
-        padding: var(--space-xs);
+        padding: var(--space-xs) var(--space-sm);
     }
-    
+
     .planet-content {
         width: 100%;
     }
@@ -690,7 +653,7 @@ header h1 {
         margin-bottom: var(--space-xs);
     }
     
-    blockquote, .prince-quote {
+    blockquote {
         margin: var(--space-xs) 0;
         padding: 10px 15px;
     }
@@ -1165,143 +1128,6 @@ footer {
         radial-gradient(circle at 90% 80%, rgba(255, 255, 255, 0.1) 1px, transparent 2px);
 }
 
-.footer-quote {
-    font-style: italic;
-    margin: 0 auto var(--space-sm);
-    max-width: 80%;
-    opacity: 0.9;
-    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
-}
-
-/* Scroll to Top Button */
-.scroll-top {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 40px;
-    height: 40px;
-    background: var(--midnight-blue);
-    border: 2px solid var(--gold);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(20px);
-    transition: all 0.3s ease;
-    z-index: 1000;
-}
-
-.scroll-top.visible {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
-
-.scroll-top svg {
-    fill: var(--gold);
-    width: 20px;
-    height: 20px;
-}
-
-.scroll-top:hover {
-    background-color: var(--dark-space);
-    transform: translateY(-3px);
-}
-
-/* Toast Notifications */
-.toast-container {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    max-width: 90%;
-    z-index: 9999;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    pointer-events: none;
-}
-
-.toast {
-    background-color: rgba(0, 0, 0, 0.85);
-    color: white;
-    padding: 12px 16px;
-    border-radius: 4px;
-    margin-top: 8px;
-    transform: translateX(100%);
-    opacity: 0;
-    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
-    max-width: 300px;
-    min-width: 200px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    font-size: 14px;
-    pointer-events: auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.toast-visible {
-    transform: translateX(0);
-    opacity: 1;
-}
-
-.toast-hiding {
-    opacity: 0;
-    transform: translateY(-20px);
-}
-
-.toast-success {
-    background-color: rgba(0, 128, 0, 0.85);
-    border-left: 4px solid #00a000;
-}
-
-.toast-error {
-    background-color: rgba(220, 53, 69, 0.85);
-    border-left: 4px solid #ff4136;
-}
-
-.toast-info {
-    background-color: rgba(0, 123, 255, 0.85);
-    border-left: 4px solid #1e90ff;
-}
-
-.toast-close {
-    background: none;
-    border: none;
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 18px;
-    cursor: pointer;
-    margin-left: 8px;
-    padding: 0 4px;
-    line-height: 1;
-    transition: color 0.2s;
-}
-
-.toast-close:hover {
-    color: white;
-}
-
-/* Mobile adjustments for toasts */
-@media (max-width: 768px) {
-    .toast-container {
-        bottom: 10px;
-        right: 10px;
-        left: 10px;
-        align-items: stretch;
-    }
-    
-    .toast {
-        max-width: none;
-        min-width: 0;
-        width: 100%;
-        padding: 10px 12px;
-        font-size: 13px;
-    }
-}
-
 /* Custom Cursor */
 #brutalist-cursor {
     width: 15px;
@@ -1362,11 +1188,6 @@ footer {
     }
 }
 
-/* Remove the abstract shapes - they're replaced with stars */
-.abstract-shape {
-    display: none;
-}
-
 /* Planet Features Animation - subtle movement */
 @keyframes planetRotate {
     0% { transform: rotate(0deg); }
@@ -1386,8 +1207,7 @@ footer {
     
     .cosmic-navigation,
     .star,
-    .menu-toggle,
-    .scroll-top {
+    .menu-toggle {
         display: none;
     }
     
@@ -1437,59 +1257,6 @@ footer {
     }
 }
 
-/* Prince Quote Styles */
-.quote-container {
-    max-width: 800px;
-    margin: 40px auto;
-    padding: 0 20px;
-    text-align: center;
-}
-
-.prince-quote {
-    font-size: 1.5rem;
-    line-height: 1.4;
-    color: var(--cream);
-    font-style: italic;
-    position: relative;
-    padding: 20px 40px;
-    margin: 0;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
-}
-
-.prince-quote.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.prince-quote::before,
-.prince-quote::after {
-    content: '"';
-    position: absolute;
-    font-size: 3rem;
-    color: var(--sunset-yellow);
-    opacity: 0.4;
-}
-
-.prince-quote::before {
-    top: 0;
-    left: 0;
-}
-
-.prince-quote::after {
-    bottom: -20px;
-    right: 0;
-}
-
-.quote-attribution {
-    display: block;
-    margin-top: 10px;
-    font-style: normal;
-    font-size: 1rem;
-    color: var(--soft-lavender);
-}
-
 /* Blog Post Items */
 .post-list {
     display: grid;
@@ -1518,36 +1285,6 @@ footer {
     opacity: 0.8;
 }
 
-.post-item-image {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-}
-
-.post-item-content {
-    padding: 20px;
-}
-
-.post-item-title {
-    font-size: 1.3rem;
-    margin: 0 0 10px 0;
-    color: var(--cream);
-}
-
-.post-item-date {
-    font-size: 0.8rem;
-    color: var(--soft-lavender);
-    margin-bottom: 10px;
-    display: block;
-}
-
-.post-item-excerpt {
-    font-size: 0.9rem;
-    line-height: 1.5;
-    color: var(--pale-mint);
-    margin-bottom: 15px;
-}
-
 .read-more {
     display: inline-block;
     background: var(--sunset-yellow);
@@ -1564,62 +1301,10 @@ footer {
     background: #ffdb58;
 }
 
-/* Scroll To Top Button */
-.scroll-to-top {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 40px;
-    height: 40px;
-    background: var(--sunset-yellow);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    z-index: 100;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-}
-
-.scroll-to-top.active {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.scroll-to-top svg {
-    width: 20px;
-    height: 20px;
-    fill: var(--midnight-blue);
-}
-
 /* Mobile adjustments */
 @media (max-width: 768px) {
     .post-list {
         grid-template-columns: 1fr;
-    }
-    
-    .prince-quote {
-        font-size: 1.2rem;
-        padding: 15px 30px;
-    }
-    
-    .prince-quote::before,
-    .prince-quote::after {
-        font-size: 2rem;
-    }
-    
-    .quote-attribution {
-        font-size: 0.9rem;
-    }
-    
-    .scroll-to-top {
-        bottom: 15px;
-        right: 15px;
-        width: 36px;
-        height: 36px;
     }
 }
 
@@ -1717,4 +1402,17 @@ footer {
     }
 }
 
-/* All planet-specific footer styles have been removed */ 
+/* All planet-specific footer styles have been removed */
+
+/* Phone card padding; must come after the base .intro-planet/.post-item rules to win */
+@media (max-width: 768px) {
+    .intro-planet,
+    .post-item {
+        padding: 1.25rem;
+    }
+
+    .post-list {
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
